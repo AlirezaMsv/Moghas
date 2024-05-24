@@ -1,0 +1,7 @@
+.rotate_180 {
+    transform: rotate(180deg);
+  }
+  
+.transition_transform {
+  transition: transform 0.5s;
+}

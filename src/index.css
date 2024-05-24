@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: VazirFD;
+    src: url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.eot') format('eot'),
+    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.ttf') format('ttf'),
+    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff') format('woff'),
+    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff2') format('woff2'),;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-y: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.ant-menu-title-content{
+  font-family: VazirFD;
+}
