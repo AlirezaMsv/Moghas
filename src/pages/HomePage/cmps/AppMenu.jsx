@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { Menu, Button, ConfigProvider } from "antd";
-import { DownOutlined, LockFilled } from "@ant-design/icons";
+import { LockFilled, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { TinyColor } from "@ctrl/tinycolor";
 import "./AppMenu.module.css";
 import icon from "../../../assets/logos/icon.png";
@@ -8,12 +8,8 @@ import style from "./AppMenu.module.css";
 
 const { SubMenu } = Menu;
 
-const AppMenu = () => {
-  const [submenuOpen, setSubmenuOpen] = useState(false);
+const AppMenu = ({ show }) => {
 
-  const handleSubmenuChange = (openKeys) => {
-    setSubmenuOpen(openKeys.includes("sub1"));
-  };
   const colors3 = ["#40e495", "#30dd8a", "#2bb673"];
   const getHoverColors = (colors) =>
     colors.map((color) => new TinyColor(color).lighten(5).toString());
@@ -29,34 +25,8 @@ const AppMenu = () => {
       }}
     >
       <img className="w-14 mx-32" src={icon} />
-      <Menu
-        mode="horizontal"
-        className="basis-5/6 flex justify-center"
-        onOpenChange={handleSubmenuChange}
-      >
-        <SubMenu
-          key="sub1"
-          title={
-            <span>
-              چرا موقاس؟
-              <DownOutlined
-                className={`${style.transition_transform} ${
-                  submenuOpen ? style.rotate_180 : ""
-                }`}
-              />
-            </span>
-          }
-        >
-          <Menu.ItemGroup title="بررسی اجمالی">
-            <Menu.Item key="overview">بررسی اجمالی تسکولو</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup title="ویژگی‌ها و امکانات">
-            <Menu.Item key="feature1">مدیریت کارها</Menu.Item>
-            <Menu.Item key="feature2">برگزاری جلسات آنلاین</Menu.Item>
-            <Menu.Item key="feature3">تحلیلگر</Menu.Item>
-            <Menu.Item key="feature4">سایر ویژگی های تسکولو</Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
+      <Menu mode="horizontal" className="basis-5/6 flex justify-center rounded-2xl">
+        <Menu.Item key="1">چرا موقاس؟</Menu.Item>
         <Menu.Item key="2">راهکارها</Menu.Item>
         <Menu.Item key="3">موارد استفاده</Menu.Item>
         <Menu.Item key="4">قیمت‌ها</Menu.Item>
@@ -82,7 +52,12 @@ const AppMenu = () => {
             },
           }}
         >
-          <Button type="primary" size="large" icon={<LockFilled />}>
+          <Button
+            onClick={show}
+            type="primary"
+            size="large"
+            icon={<LockFilled />}
+          >
             وارد شوید
           </Button>
         </ConfigProvider>
