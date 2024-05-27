@@ -1,6 +1,6 @@
 import React, { lazy, useState } from "react";
 import { Menu, Button, ConfigProvider } from "antd";
-import { LockFilled, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { LockFilled, SmileFilled } from "@ant-design/icons";
 import { TinyColor } from "@ctrl/tinycolor";
 import "./AppMenu.module.css";
 import icon from "../../../assets/logos/icon.png";
@@ -8,8 +8,8 @@ import style from "./AppMenu.module.css";
 
 const { SubMenu } = Menu;
 
-const AppMenu = ({ show }) => {
-
+const AppMenu = ({ openLS, openSupport }) => {
+  const colors2 = ["#fc6076", "#ff9a44", "#ef9d43", "#e75516"];
   const colors3 = ["#40e495", "#30dd8a", "#2bb673"];
   const getHoverColors = (colors) =>
     colors.map((color) => new TinyColor(color).lighten(5).toString());
@@ -25,7 +25,10 @@ const AppMenu = ({ show }) => {
       }}
     >
       <img className="w-14 mx-32" src={icon} />
-      <Menu mode="horizontal" className="basis-5/6 flex justify-center rounded-2xl">
+      <Menu
+        mode="horizontal"
+        className="basis-5/6 flex justify-center rounded-2xl"
+      >
         <Menu.Item key="1">چرا موقاس؟</Menu.Item>
         <Menu.Item key="2">راهکارها</Menu.Item>
         <Menu.Item key="3">موارد استفاده</Menu.Item>
@@ -53,7 +56,7 @@ const AppMenu = ({ show }) => {
           }}
         >
           <Button
-            onClick={show}
+            onClick={openLS}
             type="primary"
             size="large"
             icon={<LockFilled />}
@@ -67,13 +70,20 @@ const AppMenu = ({ show }) => {
             components: {
               Button: {
                 fontFamily: "VazirFD",
+                colorPrimary: `linear-gradient(116deg,  ${colors2.join(", ")})`,
+                colorPrimaryHover: `linear-gradient(116deg, ${getHoverColors(
+                  colors2
+                ).join(", ")})`,
+                colorPrimaryActive: `linear-gradient(116deg, ${getActiveColors(
+                  colors2
+                ).join(", ")})`,
                 lineWidth: 0,
               },
             },
           }}
         >
-          <Button type="primary" size="large">
-            رایگان شروع کنید
+          <Button type="primary" size="large" onClick={openSupport} icon={<SmileFilled />}>
+            حمایت از موقاس
           </Button>
         </ConfigProvider>
       </div>

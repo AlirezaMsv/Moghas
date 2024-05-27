@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Modal, ConfigProvider, Tabs } from "antd";
 import { UserAddOutlined, SmileOutlined } from "@ant-design/icons";
 import SignUp from "./cmps/SignUp";

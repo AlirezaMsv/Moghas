@@ -5,9 +5,12 @@ import style from "./HomePage.module.css";
 import LSModal from "../LoginModal/LSModal";
 import CardSection from "./cmps/CardSection";
 import Prices from "./cmps/Prices";
+import SupportModal from "../SupportModal/SupportModal";
+import back1 from '../../assets/homepage/back1.png'
 
 const Homepage = () => {
   const [showLS, setShowLS] = useState(false);
+  const [showSupport, setShowSupport] = useState(false)
 
   const openLS = () => {
     setShowLS(true);
@@ -17,10 +20,19 @@ const Homepage = () => {
     setShowLS(false);
   };
 
+  const openSupport = () => {
+    setShowSupport(true);
+  };
+
+  const closeSupport = () => {
+    setShowSupport(false);
+  };
+
   return (
     <div className={style.homepage}>
       {showLS && <LSModal isOpen={showLS} close={closeLS} />}
-      <AppMenu show={openLS} />
+      {showSupport && <SupportModal isOpen={showSupport} close={closeSupport} />}
+      <AppMenu openLS={openLS} openSupport={openSupport} />
       <div className="text-center py-24 bg-white">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           گفتگوی آنلاین با مشتریان
@@ -31,7 +43,7 @@ const Homepage = () => {
           }}
           className="text-lg text-gray-400 mb-8"
         >
-          با گفتینو خیلی ساده با مشتریان خود مستقیم صحبت کنید و از این ابزار
+          با موقاس خیلی ساده با مشتریان خود مستقیم صحبت کنید و از این ابزار
           پشتیبانی کارآمد، برای توسعه کسب و کارتان استفاده کنید!
         </p>
         <ConfigProvider
@@ -44,11 +56,12 @@ const Homepage = () => {
             },
           }}
         >
-          <Button type="primary" size="large">
-            رایگان شروع کنید
+          <Button type="primary" size="large" color="orange">
+            درخواست دمو
           </Button>
         </ConfigProvider>
       </div>
+      <img src={back1} />
       <div className="text-center py-24 bg-white">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           یک میز کار کامل در اختیار شماست
