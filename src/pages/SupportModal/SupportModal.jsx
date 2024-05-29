@@ -1,15 +1,15 @@
-import { Modal, ConfigProvider, QRCode, Input, Button, message } from "antd";
-import { SmileFilled, CopyOutlined } from "@ant-design/icons";
-import logo from "../../assets/logos/favicon-32x32.png";
+import { Modal, ConfigProvider, message, Button, Input } from "antd";
+import { CopyOutlined } from "@ant-design/icons";
 
 const SupportModal = ({ isOpen, close }) => {
-  const link = "https://sibmo.ir/moqas";
-  const tnks = "عزیزان گرامی،  با تشکر فراوان از شما که قصد دارید از پروژه ما حمایت مالی کنید. قدردان همراهی و حمایت شما هستیم و باور داریم که با کمک‌های ارزشمند شما، می‌توانیم گام‌های مؤثری در جهت تحقق اهداف و توسعه این پروژه برداریم.    پشتیبانی شما نه تنها به ادامه فعالیت‌های ما کمک می‌کند، بلکه نشان‌دهنده اعتماد و ارزشی است که برای کار ما قائل هستید. ما متعهد هستیم که این اعتماد را با بهبود مستمر خدمات و تلاش برای ارائه بهترین‌ها، پاسخ دهیم.  با سپاس بیکران"
+  const email = "moqasSupport@moqas-chat.ir";
+  const text =
+    "ما همیشه آماده شنیدن نظرات، پیشنهادات و سوالات شما هستیم. برای ارتباط با ما می‌توانید از طریق ایمیل زیر اقدام کنید:";
   const [messageApi, contextHolder] = message.useMessage();
 
   const copyLink = () => {
     navigator.clipboard
-      .writeText(link)
+      .writeText(email)
       .then(() => {
         messageApi.open({
           type: "success",
@@ -51,40 +51,32 @@ const SupportModal = ({ isOpen, close }) => {
               width: "100%",
             }}
           >
-            حمایت از موقاس{" "}
-            <SmileFilled
-              style={{
-                color: "#f39c12",
-              }}
-            />
+            ارتباط با ما
           </div>
         }
         onCancel={close}
         open={isOpen}
         footer={[]}
       >
-        {tnks}
-        <div>
-          <QRCode
-            style={{ margin: "1rem auto" }}
-            errorLevel="H"
-            value={link}
-            icon={logo}
-          />
-          <div
-            style={{
-              display: "flex",
-            }}
-          >
-            <Button>
-              <CopyOutlined onClick={copyLink} />
-            </Button>
-            <Input
-              style={{ margin: "0 0.75rem", direction: "ltr" }}
-              disabled
-              value={link}
-            />
+        <div className="flex items-center justify-center">
+          <div className="border-4 border-blue-100 rounded-lg p-2 bg-white shadow-lg">
+            <p className="text-justify text-gray-800">{text}</p>
           </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            margin: "2rem 0 0 0"
+          }}
+        >
+          <Button>
+            <CopyOutlined onClick={copyLink} />
+          </Button>
+          <Input
+            style={{ margin: "0 0.75rem", direction: "ltr" }}
+            readOnly
+            value={email}
+          />
         </div>
       </Modal>
     </ConfigProvider>

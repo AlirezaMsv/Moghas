@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Button, ConfigProvider, Typography } from "antd";
+import { Button, ConfigProvider } from "antd";
 import AppMenu from "./cmps/AppMenu";
 import style from "./HomePage.module.css";
 import LSModal from "../LoginModal/LSModal";
 import CardSection from "./cmps/CardSection";
 import Prices from "./cmps/Prices";
+import DonateModal from "../DonateModal/DonateModal";
 import SupportModal from "../SupportModal/SupportModal";
-import back1 from '../../assets/homepage/back1.png'
+import DemoModal from "./cmps/DemoModal";
+import back1 from "../../assets/homepage/back1.png";
 
 const Homepage = () => {
   const [showLS, setShowLS] = useState(false);
-  const [showSupport, setShowSupport] = useState(false)
+  const [showDonate, setShowDonate] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+  const [showDemo, setShowDemo] = useState(false);
 
   const openLS = () => {
     setShowLS(true);
@@ -18,6 +22,14 @@ const Homepage = () => {
 
   const closeLS = () => {
     setShowLS(false);
+  };
+
+  const openDonate = () => {
+    setShowDonate(true);
+  };
+
+  const closeDonate = () => {
+    setShowDonate(false);
   };
 
   const openSupport = () => {
@@ -28,11 +40,30 @@ const Homepage = () => {
     setShowSupport(false);
   };
 
+  const openDemo = () => {
+    setShowDemo(true);
+  };
+
+  const closeDemo = () => {
+    setShowDemo(false);
+  };
+
   return (
     <div className={style.homepage}>
       {showLS && <LSModal isOpen={showLS} close={closeLS} />}
-      {showSupport && <SupportModal isOpen={showSupport} close={closeSupport} />}
-      <AppMenu openLS={openLS} openSupport={openSupport} />
+      {showDonate && <DonateModal isOpen={showDonate} close={closeDonate} />}
+      {showSupport && (
+        <SupportModal isOpen={showSupport} close={closeSupport} />
+      )}
+      {showDemo && (
+        <DemoModal isOpen={showDemo} close={closeDemo} />
+      )}
+      <AppMenu
+        openLS={openLS}
+        openDonate={openDonate}
+        openSupport={openSupport}
+        openDemo={openDemo}
+      />
       <div className="text-center py-24 bg-white">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           گفتگوی آنلاین با مشتریان
@@ -56,13 +87,13 @@ const Homepage = () => {
             },
           }}
         >
-          <Button type="primary" size="large" color="orange">
+          <Button type="primary" size="large" onClick={openDemo}>
             درخواست دمو
           </Button>
         </ConfigProvider>
       </div>
       <img src={back1} />
-      <div className="text-center py-24 bg-white">
+      <div id="usage" className="text-center py-24 bg-white">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           یک میز کار کامل در اختیار شماست
         </h1>
@@ -76,7 +107,7 @@ const Homepage = () => {
         </p>
         <CardSection />
       </div>
-      <div>
+      <div id="customers">
         <Prices />
       </div>
     </div>
