@@ -2,11 +2,10 @@ import { Modal, ConfigProvider, QRCode, Input, Button, message } from "antd";
 import { SmileFilled, CopyOutlined } from "@ant-design/icons";
 import logo from "../../assets/logos/favicon-32x32.png";
 
-const DonateModal = ({ isOpen, close }) => {
+const DonateModal = ({ isOpen, close, messageApi }) => {
   const link = "https://sibmo.ir/moqas";
   const tnks =
     "عزیزان گرامی،  با تشکر فراوان از شما که قصد دارید از پروژه ما حمایت مالی کنید. قدردان همراهی و حمایت شما هستیم و باور داریم که با کمک‌های ارزشمند شما، می‌توانیم گام‌های مؤثری در جهت تحقق اهداف و توسعه این پروژه برداریم.";
-  const [messageApi, contextHolder] = message.useMessage();
 
   const copyLink = () => {
     navigator.clipboard
@@ -43,7 +42,6 @@ const DonateModal = ({ isOpen, close }) => {
         },
       }}
     >
-      {contextHolder}
       <Modal
         title={
           <div

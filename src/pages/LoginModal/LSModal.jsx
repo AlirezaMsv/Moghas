@@ -3,7 +3,7 @@ import { UserAddOutlined, SmileOutlined } from "@ant-design/icons";
 import SignUp from "./cmps/SignUp";
 import Login from "./cmps/Login";
 
-const LSModal = ({ isOpen, close }) => {
+const LSModal = ({ isOpen, close, messageApi }) => {
   const tabItems = [
     {
       key: "1",

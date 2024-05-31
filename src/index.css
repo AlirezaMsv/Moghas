@@ -5,17 +5,17 @@
 @layer base {
   @font-face {
     font-family: VazirFD;
-    src: url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.eot') format('eot'),
-    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.ttf') format('ttf'),
-    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff') format('woff'),
-    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff2') format('woff2'),;
+    src: url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.eot") format("eot"),
+      url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.ttf") format("ttf"),
+      url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff") format("woff"),
+      url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff2") format("woff2");
   }
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,18 +23,23 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.ant-menu-title-content, .ant-form-item-required, .ant-form-item, .ant-checkbox{
+.ant-menu-title-content,
+.ant-form-item-required,
+.ant-form-item,
+.ant-checkbox {
   font-family: VazirFD;
 }
 
-.ant-modal{
+.ant-modal {
   direction: rtl;
 }
 
-.font{
-  font-family: VazirFD;
+
+.font,
+.fontPlaceholder::placeholder {
+  font-family: VazirFD !important;
 }

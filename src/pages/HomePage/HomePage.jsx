@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, ConfigProvider } from "antd";
+import { Button, ConfigProvider, message } from "antd";
 import AppMenu from "./cmps/AppMenu";
 import style from "./HomePage.module.css";
 import LSModal from "../LoginModal/LSModal";
@@ -15,6 +15,7 @@ const Homepage = () => {
   const [showDonate, setShowDonate] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const openLS = () => {
     setShowLS(true);
@@ -50,19 +51,37 @@ const Homepage = () => {
 
   return (
     <div className={style.homepage}>
-      {showLS && <LSModal isOpen={showLS} close={closeLS} />}
-      {showDonate && <DonateModal isOpen={showDonate} close={closeDonate} />}
+      {contextHolder}
+      {showLS && (
+        <LSModal isOpen={showLS} close={closeLS} messageApi={messageApi} />
+      )}
+      {showDonate && (
+        <DonateModal
+          isOpen={showDonate}
+          close={closeDonate}
+          messageApi={messageApi}
+        />
+      )}
       {showSupport && (
-        <SupportModal isOpen={showSupport} close={closeSupport} />
+        <SupportModal
+          isOpen={showSupport}
+          close={closeSupport}
+          messageApi={messageApi}
+        />
       )}
       {showDemo && (
-        <DemoModal isOpen={showDemo} close={closeDemo} />
+        <DemoModal
+          isOpen={showDemo}
+          close={closeDemo}
+          messageApi={messageApi}
+        />
       )}
       <AppMenu
         openLS={openLS}
         openDonate={openDonate}
         openSupport={openSupport}
         openDemo={openDemo}
+        messageApi={messageApi}
       />
       <div className="text-center py-24 bg-white">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">

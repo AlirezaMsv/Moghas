@@ -4,15 +4,13 @@ import { TinyColor } from "@ctrl/tinycolor";
 import "./AppMenu.module.css";
 import icon from "../../../assets/logos/icon.png";
 
-const AppMenu = ({ openLS, openDonate, openSupport, openDemo }) => {
+const AppMenu = ({ openLS, openDonate, openSupport, openDemo, messageApi }) => {
   const colors2 = ["#fc6076", "#ff9a44", "#ef9d43", "#e75516"];
   const colors3 = ["#40e495", "#30dd8a", "#2bb673"];
   const getHoverColors = (colors) =>
     colors.map((color) => new TinyColor(color).lighten(5).toString());
   const getActiveColors = (colors) =>
     colors.map((color) => new TinyColor(color).darken(5).toString());
-
-  const [messageApi, contextHolder] = message.useMessage();
 
   return (
     <Menu
@@ -22,7 +20,6 @@ const AppMenu = ({ openLS, openDonate, openSupport, openDemo }) => {
         direction: "rtl",
       }}
     >
-      {contextHolder}
       <img className="w-14 mx-32" src={icon} />
       <Menu
         selectedKeys={[]}

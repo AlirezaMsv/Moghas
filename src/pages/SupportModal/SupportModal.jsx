@@ -1,11 +1,10 @@
 import { Modal, ConfigProvider, message, Button, Input } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 
-const SupportModal = ({ isOpen, close }) => {
+const SupportModal = ({ isOpen, close, messageApi }) => {
   const email = "moqasSupport@moqas-chat.ir";
   const text =
     "ما همیشه آماده شنیدن نظرات، پیشنهادات و سوالات شما هستیم. برای ارتباط با ما می‌توانید از طریق ایمیل زیر اقدام کنید:";
-  const [messageApi, contextHolder] = message.useMessage();
 
   const copyLink = () => {
     navigator.clipboard
@@ -42,7 +41,6 @@ const SupportModal = ({ isOpen, close }) => {
         },
       }}
     >
-      {contextHolder}
       <Modal
         title={
           <div
