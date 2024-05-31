@@ -20,7 +20,7 @@ const AppMenu = ({ openLS, openDonate, openSupport, openDemo, messageApi }) => {
         direction: "rtl",
       }}
     >
-      <img className="w-14 mx-32" src={icon} />
+      <img className="w-14 mx-8" src={icon} />
       <Menu
         selectedKeys={[]}
         mode="horizontal"

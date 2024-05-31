@@ -101,7 +101,7 @@ const DemoModal = ({ isOpen, close, messageApi }) => {
           <Form
             style={{ margin: "2rem 0 0 0", direction: "ltr" }}
             layout="vertical"
-            onSubmitCapture={handleSend}
+            onFinish={handleSend}
           >
             <Form.Item>
               <Row align="middle">

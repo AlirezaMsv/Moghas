@@ -38,7 +38,6 @@ code {
   direction: rtl;
 }
 
-
 .font,
 .fontPlaceholder::placeholder {
   font-family: VazirFD !important;

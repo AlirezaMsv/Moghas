@@ -6,7 +6,7 @@ const onFinish = (values) => {
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const Login = () => (
+const Login = ({setSignupEnable}) => (
   <ConfigProvider
     theme={{
       components: {
@@ -22,7 +22,7 @@ const Login = () => (
         span: 6,
       }}
       wrapperCol={{
-        span: 12,
+        span: 14,
       }}
       style={{
         width: '80vh',
@@ -43,6 +43,9 @@ const Login = () => (
             message: "Please input your username!",
           },
         ]}
+        style={{
+          direction: 'ltr'
+        }}
       >
         <Input />
       </Form.Item>
@@ -55,7 +58,10 @@ const Login = () => (
             required: true,
             message: "Please input your password!",
           },
-        ]}
+        ]}        
+        style={{
+          direction: 'ltr'
+        }}
       >
         <Input.Password />
       </Form.Item>
