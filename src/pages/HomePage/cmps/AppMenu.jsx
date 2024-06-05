@@ -15,9 +15,10 @@ const AppMenu = ({ openLS, openDonate, openSupport, openDemo, messageApi }) => {
   return (
     <Menu
       mode="horizontal"
-      className="items-center bg-gray-100 p-4"
+      className="items-center p-4"
       style={{
         direction: "rtl",
+        backgroundColor: "#f5f8fe"
       }}
     >
       <img className="w-14 mx-8" src={icon} />

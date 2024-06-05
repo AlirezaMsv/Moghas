@@ -4,11 +4,11 @@ import AppMenu from "./cmps/AppMenu";
 import style from "./HomePage.module.css";
 import LSModal from "../LoginModal/LSModal";
 import CardSection from "./cmps/CardSection";
-import Prices from "./cmps/Prices";
 import DonateModal from "../DonateModal/DonateModal";
 import SupportModal from "../SupportModal/SupportModal";
 import DemoModal from "./cmps/DemoModal";
 import back1 from "../../assets/homepage/back1.png";
+import OurCustomers from "./cmps/OurCustomers";
 
 const Homepage = () => {
   const [showLS, setShowLS] = useState(false);
@@ -127,7 +127,7 @@ const Homepage = () => {
         <CardSection />
       </div>
       <div id="customers">
-        <Prices />
+          <OurCustomers />
       </div>
     </div>
   );

@@ -2,12 +2,17 @@ import { Modal, ConfigProvider, Tabs } from "antd";
 import { UserAddOutlined, SmileOutlined } from "@ant-design/icons";
 import SignUp from "./cmps/SignUp";
 import Login from "./cmps/Login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const LSModal = ({ isOpen, close, messageApi }) => {
   const [loginEnable, setLoginEnable] = useState(true);
   const [signupEnable, setSignupEnable] = useState(true);
+
+  useEffect(() => {
+    setLoginEnable(true)
+    setSignupEnable(true)
+  }, [])
 
   const tabItems = [
     {
@@ -15,14 +20,14 @@ const LSModal = ({ isOpen, close, messageApi }) => {
       label: "ورود",
       icon: <SmileOutlined />,
       disabled: !loginEnable,
-      children: <Login setSignupEnable={setSignupEnable} />,
+      children: <Login setSignupEnable={setSignupEnable} messageApi={messageApi} close={close} />,
     },
     {
       key: "2",
       label: "ثبت‌نام",
       icon: <UserAddOutlined />,
       disabled: !signupEnable,
-      children: <SignUp setLoginEnable={setLoginEnable} />,
+      children: <SignUp setLoginEnable={setLoginEnable} messageApi={messageApi} close={close} />,
     },
   ];
 

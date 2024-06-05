@@ -14,6 +14,7 @@ import { useState } from "react";
 const DemoModal = ({ isOpen, close, messageApi }) => {
   const [contactType, setContactType] = useState("phone");
   const [contactValue, setContactValue] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const handleContactTypeChange = (e) => {
     setContactType(e.target.value);
@@ -31,15 +32,19 @@ const DemoModal = ({ isOpen, close, messageApi }) => {
         },
       });
     } else {
-      messageApi.open({
-        type: "success",
-        content: "ارسال شد!",
-        style: {
-          fontFamily: "VazirFD",
-          direction: "rtl",
-        },
-      });
-      close();
+      setLoading(true)
+      setTimeout(() => {
+        messageApi.open({
+          type: "success",
+          content: "همکاران ما در اولین فرصت با شما تماس خواهند گرفت!",
+          style: {
+            fontFamily: "VazirFD",
+            direction: "rtl",
+          },
+        });
+        close();
+        setLoading(false)
+      }, [1000]);
     }
   };
 
@@ -157,7 +162,7 @@ const DemoModal = ({ isOpen, close, messageApi }) => {
                 justifyContent: "center",
               }}
             >
-              <Button type="primary" size="medium" onClick={handleSend}>
+              <Button type="primary" size="medium" onClick={handleSend} loading={loading}>
                 درخواست دمو
               </Button>
             </Form.Item>

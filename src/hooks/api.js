@@ -77,7 +77,7 @@ const handleError = (error) => {
 };
 
 // This makes every API response have the same shape, regardless of how nested it was.
-export const postApi = (endpoint, body, params, options) => {
+export const postApi = async (endpoint, body, params, options) => {
   let fullUrl =
     endpoint.indexOf(`${getServerUrl()}/`) === -1
       ? `${getServerUrl()}/${endpoint}`
@@ -97,16 +97,20 @@ export const postApi = (endpoint, body, params, options) => {
     fullUrl = fullUrl.replace(/[?&]$/, "");
   }
 
-  return axios
-    .post(fullUrl, body, {
-      ...options,
-      ...getOptions(body),
-    })
-    .then((response) => normalizeResponse(response))
-    .catch((error) => handleError(error));
+  try {
+    const response = await axios
+      .post(fullUrl, body, {
+        ...options,
+        ...getOptions(body),
+        withCredentials: true // Ensure credentials are included
+      });
+    return normalizeResponse(response);
+  } catch (error) {
+    return await handleError(error);
+  }
 };
 
-export const getApi = (endpoint, params, options) => {
+export const getApi = async (endpoint, params, options) => {
   let fullUrl =
     endpoint.indexOf(`${getServerUrl()}/`) === -1
       ? `${getServerUrl()}/${endpoint}`
@@ -127,10 +131,13 @@ export const getApi = (endpoint, params, options) => {
     fullUrl = fullUrl.replace(/[?&]$/, "");
   }
 
-  return axios
-    .get(fullUrl, { ...options, ...getOptions(params) })
-    .then((response) => normalizeResponse(response))
-    .catch((error) => handleError(error));
+  try {
+    const response = await axios
+      .get(fullUrl, { ...options, ...getOptions(params) });
+    return normalizeResponse(response);
+  } catch (error) {
+    return await handleError(error);
+  }
 };
 
 export const getBlob = async (endpoint, params, config) => {

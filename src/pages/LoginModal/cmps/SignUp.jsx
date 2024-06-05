@@ -1,49 +1,193 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  ConfigProvider,
-  Form,
-  Input,
-} from "antd";
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
+import { type } from "@testing-library/user-event/dist/type";
 
-const SignUp = ({ setLoginEnable }) => {
+const SignUp = ({ setLoginEnable, messageApi, close }) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [repeatPass, setrepeatPass] = useState("");
   const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const [OTP, setOTP] = useState(false);
   const [token, setToken] = useState("");
 
-  const resetSignupForm = () => {
-    setEmail("");
-    setPass("");
-    setrepeatPass("");
-    setUrl("");
+  const handleVerify = (text) => {
+    postApi(`api/CustomerAuthentication/verify?verificationToken=${text}`)
+      .then((data) => {
+        messageApi.open({
+          type: "success",
+          content: "اکانت شما تایید شد!",
+          style: {
+            fontFamily: "VazirFD",
+            direction: "rtl",
+          },
+        });
+        // login
+        postApi("api/CustomerAuthentication/login", {
+          email: email,
+          password: pass,
+        })
+          .then((data) => {
+            messageApi.open({
+              type: "success",
+              content: "با موفقیت وارد حساب خود شدید!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          })
+          .catch((err) => {
+            messageApi.open({
+              type: "error",
+              // content: "خطایی رخ داد!",
+              content: err.response.data,
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          });
+        // end
+        setLoginEnable(true);
+        close();
+      })
+      .catch((err) => {
+        messageApi.open({
+          type: "error",
+          content: "کد وارد شده درست نیست!",
+          style: {
+            fontFamily: "VazirFD",
+            direction: "rtl",
+          },
+        });
+      });
   };
 
-  const handleVerify = (text) => {
-    alert(text);
+  const resetForm = useCallback(() => {
+    setEmail("");
+    setOTP(false);
+    setPass("");
+    setrepeatPass("");
+    setToken("");
+    setUrl("");
+  }, []);
+
+  const validateInputs = () => {
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      messageApi.open({
+        type: "error",
+        content: "ایمیل وارد شده درست نیست!",
+        style: {
+          fontFamily: "VazirFD",
+          direction: "rtl",
+        },
+      });
+      return false;
+    }
+
+    // Password validation
+    if (pass.length < 8) {
+      messageApi.open({
+        type: "error",
+        content: "رمز عبور حداقل باید 8 کاراکتر باشد!",
+        style: {
+          fontFamily: "VazirFD",
+          direction: "rtl",
+        },
+      });
+      return false;
+    }
+
+    // Repeat password validation
+    if (repeatPass !== pass) {
+      messageApi.open({
+        type: "error",
+        content: "رمزعبور و تکرار آن برابر نیستند!",
+        style: {
+          fontFamily: "VazirFD",
+          direction: "rtl",
+        },
+      });
+      return false;
+    }
+
+    const urlPattern =
+      /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
+    if (!urlPattern.test(url)) {
+      messageApi.open({
+        type: "error",
+        content: "آدرس سایت معتبر نیست!",
+        style: {
+          fontFamily: "VazirFD",
+          direction: "rtl",
+        },
+      });
+      return false;
+    }
+    return true;
   };
 
   const handleRegiter = () => {
-    // postApi("api/CustomerAuthentication/register", {
-    //   email: email,
-    //   password: pass,
-    //   confirmPassword: repeatPass,
-    //   websiteLink: url,
-    // })
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    console.log(email, pass, repeatPass, url)
-    // setLoginEnable(false);
-    // setOTP(true);
+    setLoading(true)
+    if (validateInputs()) {
+      postApi("api/CustomerAuthentication/register", {
+        email: email,
+        password: pass,
+        confirmPassword: repeatPass,
+        websiteLink: url,
+      })
+        .then((data) => {
+          postApi(
+            `api/CustomerAuthentication/email-verification-token?email=${email}`
+          )
+            .then((data) => {
+              messageApi.open({
+                type: "success",
+                content: "کد تایید به ایمیل شما ارسال شد!",
+                style: {
+                  fontFamily: "VazirFD",
+                  direction: "rtl",
+                },
+              });
+              setLoginEnable(false);
+              setOTP(true);
+              setLoading(false)
+            })
+            .catch((err) => {
+              messageApi.open({
+                type: "error",
+                // content: err.data,
+                content: "خطایی رخ داد. دوباره تلاش کنید!",
+                style: {
+                  fontFamily: "VazirFD",
+                  direction: "rtl",
+                },
+              });
+              setLoading(false)
+            });
+        })
+        .catch((err) => {
+          messageApi.open({
+            type: "error",
+            // content: "خطایی رخ داد!",
+            content: err.response.data,
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+          console.log(err);
+          setLoading(false)
+        });
+    }
+    else{
+      setLoading(false)
+    }
   };
 
   return (
@@ -51,9 +195,6 @@ const SignUp = ({ setLoginEnable }) => {
       theme={{
         components: {
           Button: {
-            fontFamily: "VazirFD",
-          },
-          Input: {
             fontFamily: "VazirFD",
           },
         },
@@ -100,10 +241,12 @@ const SignUp = ({ setLoginEnable }) => {
             <Button
               danger
               onClick={() => {
-                resetSignupForm();
                 setOTP(false);
                 setLoginEnable(true);
                 setToken("");
+              }}
+              style={{
+                width: "20vh",
               }}
             >
               انصراف
@@ -217,7 +360,7 @@ const SignUp = ({ setLoginEnable }) => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               ثبت‌نام
             </Button>
           </Form.Item>
