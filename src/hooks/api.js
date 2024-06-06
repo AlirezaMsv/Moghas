@@ -26,23 +26,23 @@ function getOptions(request, downloadProgress, uploadProgress) {
     cancelToken: cancelToken.token,
     withCredentials: true,
   };
-//   if (uploadProgress) {
-//     optionModel.onUploadProgress = function (progressEvent) {
-//       let totalSize = progressEvent.total;
-//       buildProgress("آپلود", progressEvent.loaded, totalSize);
-//     };
-//   }
-//   if (downloadProgress) {
-//     optionModel.onDownloadProgress = function (progressEvent) {
-//       let totalSize = progressEvent.total;
-//       buildProgress(request.documentName, progressEvent.loaded, totalSize);
-//     };
-//   }
+  //   if (uploadProgress) {
+  //     optionModel.onUploadProgress = function (progressEvent) {
+  //       let totalSize = progressEvent.total;
+  //       buildProgress("آپلود", progressEvent.loaded, totalSize);
+  //     };
+  //   }
+  //   if (downloadProgress) {
+  //     optionModel.onDownloadProgress = function (progressEvent) {
+  //       let totalSize = progressEvent.total;
+  //       buildProgress(request.documentName, progressEvent.loaded, totalSize);
+  //     };
+  //   }
   return optionModel;
 }
 
 export function getServerUrl() {
-  return window.publicUrl || process.env.apiAddress;
+  return window.publicUrl || process.env.apiAddress || localStorage.getItem("publicUrl");
 }
 
 const normalizeResponse = (response) => {
@@ -98,12 +98,11 @@ export const postApi = async (endpoint, body, params, options) => {
   }
 
   try {
-    const response = await axios
-      .post(fullUrl, body, {
-        ...options,
-        ...getOptions(body),
-        withCredentials: true // Ensure credentials are included
-      });
+    const response = await axios.post(fullUrl, body, {
+      ...options,
+      ...getOptions(body),
+      withCredentials: true, // Ensure credentials are included
+    });
     return normalizeResponse(response);
   } catch (error) {
     return await handleError(error);
@@ -120,10 +119,9 @@ export const getApi = async (endpoint, params, options) => {
     fullUrl = fullUrl + "?";
     Object.keys(params).forEach((element) => {
       if (params[element] === undefined || params[element] === null)
-        //   throw new Error(
-        //     `The parameter '${element}' must be defined and cannot be null.`
-        //   );
-        params[element] = "";
+        throw new Error(
+          `The parameter '${element}' must be defined and cannot be null.`
+        );
       else
         fullUrl +=
           element + "=" + encodeURIComponent("" + params[element]) + "&";
@@ -132,8 +130,10 @@ export const getApi = async (endpoint, params, options) => {
   }
 
   try {
-    const response = await axios
-      .get(fullUrl, { ...options, ...getOptions(params) });
+    const response = await axios.get(fullUrl, {
+      ...options,
+      ...getOptions(params),
+    });
     return normalizeResponse(response);
   } catch (error) {
     return await handleError(error);

@@ -11,6 +11,7 @@ function App() {
       (r) =>
         r.json().then((data) => {
           window.publicUrl = data.publicUrl;
+          localStorage.setItem("publicUrl", data.publicUrl);
         })
     );
   }, []);
