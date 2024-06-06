@@ -1,4 +1,4 @@
-import { Modal, ConfigProvider, message, Button, Input } from "antd";
+import { Modal, ConfigProvider, Button, Input } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 
 const SupportModal = ({ isOpen, close, messageApi }) => {

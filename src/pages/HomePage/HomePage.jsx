@@ -9,6 +9,8 @@ import SupportModal from "../SupportModal/SupportModal";
 import DemoModal from "./cmps/DemoModal";
 import back1 from "../../assets/homepage/back1.png";
 import OurCustomers from "./cmps/OurCustomers";
+import quote from "../../assets/homepage/c1.svg";
+import Footer from "./cmps/Footer";
 
 const Homepage = () => {
   const [showLS, setShowLS] = useState(false);
@@ -127,8 +129,21 @@ const Homepage = () => {
         <CardSection />
       </div>
       <div id="customers">
-          <OurCustomers />
+        <div className="flex justify-center">
+          <img id="mySvg" src={quote} />
+          <h1
+            style={{
+              color: "#1e3a58",
+            }}
+            className="m-8 text-3xl font-extrabold"
+          >
+            کسب و کارهایی که به ما اعتماد کرده‌اند
+          </h1>
+          <img src={quote} />
+        </div>
+        <OurCustomers />
       </div>
+      <Footer />
     </div>
   );
 };

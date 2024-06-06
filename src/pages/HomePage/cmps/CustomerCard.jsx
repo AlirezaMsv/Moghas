@@ -1,21 +1,9 @@
-import React from 'react';
-import { Card, Avatar } from 'antd';
-
-const { Meta } = Card;
+import React from "react";
 
 const CustomerCard = ({ name, title, image, description }) => (
-  <Card className="w-full my-4">
-    <Meta
-      avatar={<Avatar src={image} />}
-      title={name}
-      description={(
-        <>
-          <div>{title}</div>
-          <div>{description}</div>
-        </>
-      )}
-    />
-  </Card>
+  <div className="bg-white m-4 rounded-2xl p-1.5">
+    <img src={image} />
+  </div>
 );
 
 export default CustomerCard;

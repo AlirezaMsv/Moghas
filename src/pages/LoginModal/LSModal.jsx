@@ -3,7 +3,6 @@ import { UserAddOutlined, SmileOutlined } from "@ant-design/icons";
 import SignUp from "./cmps/SignUp";
 import Login from "./cmps/Login";
 import { useEffect, useState } from "react";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const LSModal = ({ isOpen, close, messageApi }) => {
   const [loginEnable, setLoginEnable] = useState(true);

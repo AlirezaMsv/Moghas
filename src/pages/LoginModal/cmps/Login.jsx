@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
+import React, { useState } from "react";
+import { Button, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
 
 const Login = ({ setSignupEnable, messageApi, close }) => {

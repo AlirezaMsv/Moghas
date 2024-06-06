@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
+import React, { useCallback, useState } from "react";
+import { Button, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
-import { type } from "@testing-library/user-event/dist/type";
 
 const SignUp = ({ setLoginEnable, messageApi, close }) => {
   const [email, setEmail] = useState("");
@@ -41,8 +40,8 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
                 direction: "rtl",
               },
             });
-            close()
-            setLoadingOTP(false)
+            close();
+            setLoadingOTP(false);
           })
           .catch((err) => {
             messageApi.open({
@@ -204,6 +203,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
     >
       {OTP ? (
         <Form
+          disabled={loadingOTP}
           name="basic"
           labelCol={{
             span: 6,

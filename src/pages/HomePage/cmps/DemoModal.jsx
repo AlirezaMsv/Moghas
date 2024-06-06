@@ -1,7 +1,6 @@
 import {
   Modal,
   ConfigProvider,
-  message,
   Button,
   Input,
   Radio,
@@ -22,7 +21,7 @@ const DemoModal = ({ isOpen, close, messageApi }) => {
   };
 
   const handleSend = () => {
-    if (contactValue == "") {
+    if (contactValue === "") {
       messageApi.open({
         type: "warning",
         content: "مقداری وارد نشده‌است!",

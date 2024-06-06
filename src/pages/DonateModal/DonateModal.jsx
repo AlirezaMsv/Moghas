@@ -1,4 +1,4 @@
-import { Modal, ConfigProvider, QRCode, Input, Button, message } from "antd";
+import { Modal, ConfigProvider, QRCode, Input, Button } from "antd";
 import { SmileFilled, CopyOutlined } from "@ant-design/icons";
 import logo from "../../assets/logos/favicon-32x32.png";
 
