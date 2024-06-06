@@ -8,12 +8,14 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
   const [pass, setPass] = useState("");
   const [repeatPass, setrepeatPass] = useState("");
   const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [loadingOTP, setLoadingOTP] = useState(false);
 
   const [OTP, setOTP] = useState(false);
   const [token, setToken] = useState("");
 
   const handleVerify = (text) => {
+    setLoadingOTP(true);
     postApi(`api/CustomerAuthentication/verify?verificationToken=${text}`)
       .then((data) => {
         messageApi.open({
@@ -24,6 +26,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
             direction: "rtl",
           },
         });
+        setLoadingOTP(false);
         // login
         postApi("api/CustomerAuthentication/login", {
           email: email,
@@ -38,12 +41,13 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
                 direction: "rtl",
               },
             });
+            close()
+            setLoadingOTP(false)
           })
           .catch((err) => {
             messageApi.open({
               type: "error",
-              // content: "خطایی رخ داد!",
-              content: err.response.data,
+              content: err.response.data ?? "خطایی رخ داد!",
               style: {
                 fontFamily: "VazirFD",
                 direction: "rtl",
@@ -51,8 +55,6 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
             });
           });
         // end
-        setLoginEnable(true);
-        close();
       })
       .catch((err) => {
         messageApi.open({
@@ -63,6 +65,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
             direction: "rtl",
           },
         });
+        setLoadingOTP(false);
       });
   };
 
@@ -133,7 +136,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
   };
 
   const handleRegiter = () => {
-    setLoading(true)
+    setLoading(true);
     if (validateInputs()) {
       postApi("api/CustomerAuthentication/register", {
         email: email,
@@ -156,7 +159,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
               });
               setLoginEnable(false);
               setOTP(true);
-              setLoading(false)
+              setLoading(false);
             })
             .catch((err) => {
               messageApi.open({
@@ -168,7 +171,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
                   direction: "rtl",
                 },
               });
-              setLoading(false)
+              setLoading(false);
             });
         })
         .catch((err) => {
@@ -182,11 +185,10 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
             },
           });
           console.log(err);
-          setLoading(false)
+          setLoading(false);
         });
-    }
-    else{
-      setLoading(false)
+    } else {
+      setLoading(false);
     }
   };
 
@@ -255,6 +257,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
         </Form>
       ) : (
         <Form
+          disabled={loading}
           name="basic"
           labelCol={{
             span: 6,

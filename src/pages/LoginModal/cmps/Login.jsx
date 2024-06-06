@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
 
@@ -12,6 +12,11 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
   const [repeatForgotPass, setRepeatForgotPass] = useState("");
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);
+  const [loadingPassword, setLoadingPassword] = useState(false);
+
+  // useEffect(() => {
+  //   setShowForgot(false)
+  // } , [])
 
   const validateLogin = () => {
     // Email validation
@@ -75,7 +80,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
   const validateEmail = () => {
     // Email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
+    if (!emailPattern.test(forgotEmail)) {
       messageApi.open({
         type: "error",
         content: "ایمیل وارد شده درست نیست!",
@@ -89,121 +94,135 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
     return true;
   };
 
-
   const handleLogin = () => {
     setLoadingLogin(true);
-    postApi("api/CustomerAuthentication/login", {
-      email: email,
-      password: pass,
-    })
-      .then((data) => {
-        messageApi.open({
-          type: "success",
-          content: "با موفقیت وارد حساب خود شدید!",
-          style: {
-            fontFamily: "VazirFD",
-            direction: "rtl",
-          },
-        });
-        close();
-        setLoadingLogin(false);
+    if (validateLogin()) {
+      postApi("api/CustomerAuthentication/login", {
+        email: email,
+        password: pass,
       })
-      .catch((err) => {
-        messageApi.open({
-          type: "error",
-          // content: "خطایی رخ داد!",
-          content: err.response.data,
-          style: {
-            fontFamily: "VazirFD",
-            direction: "rtl",
-          },
+        .then((data) => {
+          messageApi.open({
+            type: "success",
+            content: "با موفقیت وارد حساب خود شدید!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+          close();
+          setLoadingLogin(false);
+        })
+        .catch((err) => {
+          setLoadingLogin(false);
+          messageApi.open({
+            type: "error",
+            content: err.response.data ?? "خطایی رخ داد!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
         });
-        setLoadingLogin(false);
-      });
+    } else {
+      setLoadingLogin(false);
+    }
   };
 
   const handleForgot = () => {
     setLoadingEmail(true);
-    postApi(
-      `api/CustomerAuthentication/create-forgotPassword-token?email=${forgotEmail}`
-    )
-      .then((data) => {
-        postApi(
-          `api/CustomerAuthentication/email-forgotPassword-token?email=${forgotEmail}`
-        )
-          .then((data) => {
-            messageApi.open({
-              type: "success",
-              content: "کد تایید به ایمیل شما ارسال شد!",
-              style: {
-                fontFamily: "VazirFD",
-                direction: "rtl",
-              },
+    if (validateEmail()) {
+      postApi(
+        `api/CustomerAuthentication/create-forgotPassword-token?email=${forgotEmail}`
+      )
+        .then((data) => {
+          postApi(
+            `api/CustomerAuthentication/email-forgotPassword-token?email=${forgotEmail}`
+          )
+            .then((data) => {
+              messageApi.open({
+                type: "success",
+                content: "کد تایید به ایمیل شما ارسال شد!",
+                style: {
+                  fontFamily: "VazirFD",
+                  direction: "rtl",
+                },
+              });
+              setOTP(true);
+              setLoadingEmail(false);
+            })
+            .catch((err) => {
+              messageApi.open({
+                type: "error",
+                // content: "خطایی رخ داد!",
+                content: err.response.data,
+                style: {
+                  fontFamily: "VazirFD",
+                  direction: "rtl",
+                },
+              });
+              setLoadingEmail(false);
             });
-            setOTP(true);
-            setLoadingEmail(false);
-          })
-          .catch((err) => {
-            messageApi.open({
-              type: "error",
-              // content: "خطایی رخ داد!",
-              content: err.response.data,
-              style: {
-                fontFamily: "VazirFD",
-                direction: "rtl",
-              },
-            });
-            setLoadingEmail(false);
+        })
+        .catch((err) => {
+          messageApi.open({
+            type: "error",
+            content: err.response.data || "خطایی رخ داد!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
           });
-      })
-      .catch((err) => {
-        messageApi.open({
-          type: "error",
-          // content: "خطایی رخ داد!",
-          content: err.response.data,
-          style: {
-            fontFamily: "VazirFD",
-            direction: "rtl",
-          },
+          setLoadingEmail(false);
         });
-      });
+    } else {
+      setLoadingEmail(false);
+    }
   };
 
   const handleVerify = (text) => {
-    postApi("api/CustomerAuthentication/reset-password", {
-      resetPasswordToken: text,
-      password: forgotPass,
-      confirmPassword: repeatForgotPass,
-    })
-      .then((data) => {
-        messageApi.open({
-          type: "success",
-          content: "رمز شما تغییر کرد!",
-          style: {
-            fontFamily: "VazirFD",
-            direction: "rtl",
-          },
-        });
-        setOTP(false);
-        setShowForgot(false);
+    setLoadingPassword(true);
+    if (validatePasswords()) {
+      postApi("api/CustomerAuthentication/reset-password", {
+        resetPasswordToken: text,
+        password: forgotPass,
+        confirmPassword: repeatForgotPass,
       })
-      .catch((err) => {
-        messageApi.open({
-          type: "error",
-          // content: "خطایی رخ داد!",
-          content: err.response.data,
-          style: {
-            fontFamily: "VazirFD",
-            direction: "rtl",
-          },
+        .then((data) => {
+          messageApi.open({
+            type: "success",
+            content: "رمز شما تغییر کرد!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+          setOTP(false);
+          setShowForgot(false);
+          setLoadingPassword(false);
+        })
+        .catch((err) => {
+          messageApi.open({
+            type: "error",
+            // content: "خطایی رخ داد!",
+            content: err.response.data,
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+          setLoadingPassword(false);
         });
-      });
+    } else {
+      setLoadingPassword(false);
+    }
   };
 
   const forgotPassForm = () => {
     if (OTP) {
       return (
         <Form
+          disabled={loadingPassword}
           name="basic"
           labelCol={{
             span: 6,
@@ -277,6 +296,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
 
     return (
       <Form
+        disabled={loadingEmail}
         name="basic"
         onFinish={handleForgot}
         labelCol={{
@@ -323,7 +343,6 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
             }}
             type="primary"
             htmlType="submit"
-            onClick={handleForgot}
             loading={loadingEmail}
           >
             تایید
@@ -342,6 +361,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
               setShowForgot(false);
               setSignupEnable(true);
               setForgotEmail("");
+              setEmail("");
             }}
             style={{
               width: "20vh",
@@ -370,6 +390,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
       ) : (
         <Form
           name="basic"
+          disabled={loadingLogin}
           onFinish={handleLogin}
           labelCol={{
             span: 6,
@@ -425,12 +446,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
               span: 16,
             }}
           >
-            <Button
-              type="primary"
-              htmlType="submit"
-              onClick={handleLogin}
-              loading={loadingLogin}
-            >
+            <Button type="primary" htmlType="submit" loading={loadingLogin}>
               ورود
             </Button>
           </Form.Item>
