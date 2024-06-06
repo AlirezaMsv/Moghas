@@ -1,4 +1,4 @@
-import { Menu, Button, ConfigProvider, message } from "antd";
+import { Menu, Button, ConfigProvider } from "antd";
 import { LockFilled, SmileFilled } from "@ant-design/icons";
 import { TinyColor } from "@ctrl/tinycolor";
 import "./AppMenu.module.css";
