@@ -1,9 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
+import { postApi } from "../../../hooks/api";
 
-const ChangePass = () => {
+const ChangePass = ({ messageApi, setSelected }) => {
+  const [pass, setPass] = useState("");
+  const [repeatPass, setRepeatPass] = useState("");
+
+  const handleChange = () => {
+    if (validatePasswords()) {
+      postApi(
+        `api/Profile/profile-update-password?customerId=${localStorage.getItem(
+          "customerID"
+        )}&newPassword=${pass}`
+      )
+        .then((data) => {
+          setSelected("1")
+          messageApi.open({
+            type: "success",
+            content: "پسورد شما تغییر کرد!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          messageApi.open({
+            type: "error",
+            content: err.response.data || "خطایی رخ داد!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        });
+    }
+  };
+
+  const validatePasswords = () => {
+    // Password validation
+    if (pass.length < 8) {
+      messageApi.open({
+        type: "error",
+        content: "رمز عبور حداقل باید 8 کاراکتر باشد!",
+        style: {
+          fontFamily: "VazirFD",
+          direction: "rtl",
+        },
+      });
+      return false;
+    }
+
+    // Repeat password validation
+    if (repeatPass !== pass) {
+      messageApi.open({
+        type: "error",
+        content: "رمزعبور و تکرار آن برابر نیستند!",
+        style: {
+          fontFamily: "VazirFD",
+          direction: "rtl",
+        },
+      });
+      return false;
+    }
+    return true;
+  };
+
   return (
     <Form
+      layout="inline"
+      onFinish={handleChange}
       name="basic"
       labelCol={{
         span: 8,
@@ -12,37 +79,27 @@ const ChangePass = () => {
         span: 16,
       }}
       style={{
-        maxWidth: 600,
+        direction: "ltr",
       }}
       initialValues={{
         remember: false,
       }}
       autoComplete="off"
     >
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-      >
-        <Input.Password />
+      <Form.Item label="Password" name="pass" className="mx-12">
+        <Input.Password
+          className="w-56 mx-2"
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+        />
       </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-      >
-        <Input.Password />
+      <Form.Item label="Repeat Password" name="repeatPass" className="mx-12">
+        <Input.Password
+          className="w-56 mx-2"
+          value={repeatPass}
+          onChange={(e) => setRepeatPass(e.target.value)}
+        />
       </Form.Item>
 
       <Form.Item
@@ -51,8 +108,8 @@ const ChangePass = () => {
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button type="primary" htmlType="submit" className="font w-32">
+          تایید
         </Button>
       </Form.Item>
     </Form>

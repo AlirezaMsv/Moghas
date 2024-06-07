@@ -99,10 +99,10 @@ const Dashboard = () => {
         break;
       // change email
       case "3_1":
-        return <ChangeEmail />;
+        return <ChangeEmail messageApi={messageApi} setSelected={setSelected} />;
       // change pass
       case "3_2":
-        return <ChangePass />;
+        return <ChangePass messageApi={messageApi} setSelected={setSelected} />;
       // report
       case "4":
         return <Report />;
@@ -117,6 +117,7 @@ const Dashboard = () => {
         return;
       // logout
       case "6":
+        localStorage.removeItem("customerID")
         window.location.replace("/");
         break;
     }
