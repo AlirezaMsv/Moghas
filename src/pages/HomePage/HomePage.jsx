@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ConfigProvider, message } from "antd";
 import AppMenu from "./cmps/AppMenu";
 import style from "./HomePage.module.css";
@@ -11,6 +11,7 @@ import back1 from "../../assets/homepage/back1.png";
 import OurCustomers from "./cmps/OurCustomers";
 import quote from "../../assets/homepage/c1.svg";
 import Footer from "./cmps/Footer";
+import { useCookies } from "react-cookie";
 
 const Homepage = () => {
   const [showLS, setShowLS] = useState(false);
@@ -18,6 +19,13 @@ const Homepage = () => {
   const [showSupport, setShowSupport] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [cookies] = useCookies(["user"]);
+
+  useEffect(() => {
+    if (localStorage.getItem("customerID")) {
+      window.location.replace("/dashboard");
+    }
+  }, []);
 
   const openLS = () => {
     setShowLS(true);

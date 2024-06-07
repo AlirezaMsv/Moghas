@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
 import { useCookies } from "react-cookie";
@@ -15,12 +15,6 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [cookies, setCookie] = useCookies(["user"]);
-
-  useEffect(() => { 
-    if (cookies.sessionID) {
-      window.location.replace("/dashboard");
-    }
-  }, []);
 
   const validateLogin = () => {
     // Email validation
@@ -99,59 +93,42 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
   };
 
   const handleLogin = () => {
-    setLoadingLogin(true);
     if (validateLogin()) {
+      setLoadingLogin(true);
       postApi("api/CustomerAuthentication/login", {
         email: email,
         password: pass,
       })
         .then((data) => {
-          postApi(
-            `api/CustomerAuthentication/get-customer?BrowserToken0Email1=true&tokenEmail=${email}`
-          )
-            .then((userInfo) => {
-              // set cookie and customr ID
-              setLoadingLogin(false);
-              localStorage.setItem("customerID", userInfo.id);
-              setCookie("sessionID", userInfo.browserToken, { path: "/" });
-              messageApi.open({
-                type: "success",
-                content: "با موفقیت وارد حساب خود شدید!",
-                style: {
-                  fontFamily: "VazirFD",
-                  direction: "rtl",
-                },
-              });
-              setTimeout(() => {
-                window.location.replace("/dashboard");
-              }, 1000);
-              close();
-            })
-            .catch((err) => {
-              setLoadingLogin(false);
-              messageApi.open({
-                type: "error",
-                content: err.response.data ?? "خطایی رخ داد!",
-                style: {
-                  fontFamily: "VazirFD",
-                  direction: "rtl",
-                },
-              });
-            });
+          // set cookie and customr ID
+          setLoadingLogin(false);
+          localStorage.setItem("customerID", data.split(" ")[0]);
+          setCookie("sessionID", data.split(" ")[1], { path: "/" });
+          messageApi.open({
+            type: "success",
+            content: "با موفقیت وارد حساب خود شدید!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+          setTimeout(() => {
+            window.location.replace("/dashboard");
+          }, 1000);
+          close();
         })
         .catch((err) => {
+          console.log(err)
           setLoadingLogin(false);
           messageApi.open({
             type: "error",
-            content: err.response.data ?? "خطایی رخ داد!",
+            content: "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",
             },
           });
         });
-    } else {
-      setLoadingLogin(false);
     }
   };
 

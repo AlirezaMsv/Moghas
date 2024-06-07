@@ -21,6 +21,8 @@ import UserInfo from "./cmps/UserInfo";
 import Report from "./cmps/Report";
 import ChangeEmail from "./cmps/ChangeEmail";
 import ChangePass from "./cmps/ChangePass";
+import { useCookies } from "react-cookie";
+import { postApi } from "../../hooks/api";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -49,7 +51,7 @@ const items = [
 
 const Dashboard = () => {
   const [breadItems, setBreadItems] = useState([]);
-  const [selected, setSelected] = useState(["1"]);
+  const [selected, setSelected] = useState("1");
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -58,6 +60,7 @@ const Dashboard = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [showDonate, setShowDonate] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [cookies, removeCookie] = useCookies(["user"]);
 
   const handleMenuClick = (mi) => {
     // set bread items
@@ -78,6 +81,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    if (!localStorage.getItem("customerID")) window.location.replace("/");
     setBreadItems(["اطلاعات کاربری"]);
   }, []);
 
@@ -99,7 +103,9 @@ const Dashboard = () => {
         break;
       // change email
       case "3_1":
-        return <ChangeEmail messageApi={messageApi} setSelected={setSelected} />;
+        return (
+          <ChangeEmail messageApi={messageApi} setSelected={setSelected} />
+        );
       // change pass
       case "3_2":
         return <ChangePass messageApi={messageApi} setSelected={setSelected} />;
@@ -117,8 +123,35 @@ const Dashboard = () => {
         return;
       // logout
       case "6":
-        localStorage.removeItem("customerID")
-        window.location.replace("/");
+        localStorage.removeItem("customerID");
+        removeCookie("sessionID");
+        postApi(
+          `api/CustomerAuthentication/logout?browserToken=${cookies.sessionID}`
+        )
+          .then((data) => {
+            messageApi.open({
+              type: "info",
+              content: "از حساب خود خارج شدید!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+            setTimeout(() => {
+              window.location.replace("/");
+            }, 1000);
+          })
+          .catch((err) => {
+            console.log(err);
+            messageApi.open({
+              type: "error",
+              content: "خطایی رخ داد!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          });
         break;
     }
   }, [selected]);
