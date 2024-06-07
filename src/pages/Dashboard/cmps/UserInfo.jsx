@@ -13,15 +13,13 @@ const UserInfo = ({ messageApi }) => {
 
   useEffect(() => {
     setLoading(true);
-    getApi(`api/Profile/get-customer-profile?customerId=${17}`)
+    getApi(`api/Profile/get-customer-profile?customerId=${localStorage.getItem("customerID")}`)
       .then((data) => {
         setID(data.id);
         setEmail(data.email);
         setUrl(data.websiteLink);
         setVerificationData(convertToJalali(data.verifiedAt));
         setLoading(false);
-        if (localStorage.getItem("customerID" === null))
-          localStorage.setItem("customerID", data.id);
       })
       .catch((err) => {
         console.log(err);

@@ -359,11 +359,11 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
 
           <Form.Item
             wrapperCol={{
-              offset: 10,
+              offset: 8,
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit" loading={loading} className="w-32">
               ثبت‌نام
             </Button>
           </Form.Item>
