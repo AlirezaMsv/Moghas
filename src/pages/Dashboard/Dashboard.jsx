@@ -100,6 +100,9 @@ const Dashboard = () => {
             direction: "rtl",
           },
         });
+        setTimeout(() => {
+          window.location.replace('/admin')
+        }, 1000);
         break;
       // change email
       case "3_1":
