@@ -109,6 +109,39 @@ export const postApi = async (endpoint, body, params, options) => {
   }
 };
 
+// This makes every API response have the same shape, regardless of how nested it was.
+export const putApi = async (endpoint, body, params, options) => {
+  let fullUrl =
+    endpoint.indexOf(`${getServerUrl()}/`) === -1
+      ? `${getServerUrl()}/${endpoint}`
+      : endpoint;
+
+  if (params) {
+    fullUrl = fullUrl + "?";
+    Object.keys(params).forEach((element) => {
+      if (params[element] === undefined || params[element] === null)
+        throw new Error(
+          `The parameter '${element}' must be defined and cannot be null.`
+        );
+      else
+        fullUrl +=
+          element + "=" + encodeURIComponent("" + params[element]) + "&";
+    });
+    fullUrl = fullUrl.replace(/[?&]$/, "");
+  }
+
+  try {
+    const response = await axios.put(fullUrl, body, {
+      ...options,
+      ...getOptions(body),
+      withCredentials: true, // Ensure credentials are included
+    });
+    return normalizeResponse(response);
+  } catch (error) {
+    return await handleError(error);
+  }
+};
+
 export const getApi = async (endpoint, params, options) => {
   let fullUrl =
     endpoint.indexOf(`${getServerUrl()}/`) === -1

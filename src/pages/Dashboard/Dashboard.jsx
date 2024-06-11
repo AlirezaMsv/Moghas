@@ -22,7 +22,7 @@ import Report from "./cmps/Report";
 import ChangeEmail from "./cmps/ChangeEmail";
 import ChangePass from "./cmps/ChangePass";
 import { useCookies } from "react-cookie";
-import { postApi } from "../../hooks/api";
+import { postApi, putApi } from "../../hooks/api";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -125,7 +125,7 @@ const Dashboard = () => {
       case "6":
         localStorage.removeItem("customerID");
         removeCookie("sessionID");
-        postApi(
+        putApi(
           `api/CustomerAuthentication/logout?browserToken=${cookies.sessionID}`
         )
           .then((data) => {

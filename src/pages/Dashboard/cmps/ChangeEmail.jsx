@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
-import { postApi } from "../../../hooks/api";
+import { postApi, putApi } from "../../../hooks/api";
 
 const ChangeEmail = ({ messageApi, setSelected }) => {
   const [loadingEmail, setLoadingEmail] = useState(false);
@@ -26,12 +26,12 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
   };
 
   const handleVerify = (text) => {
-    setLoadingOTP(true)
+    setLoadingOTP(true);
     postApi(
       `api/Profile/profile-update-email-verify?verificationToken=${text}&newEmail=${newEmail}`
     )
       .then((data) => {
-        setLoadingOTP(false)
+        setLoadingOTP(false);
         setSelected("1");
         messageApi.open({
           type: "success",
@@ -52,14 +52,14 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
             direction: "rtl",
           },
         });
-      });      
-      setLoadingOTP(false)
+      });
+    setLoadingOTP(false);
   };
 
   const handleChange = () => {
     if (validateEmail()) {
       setLoadingEmail(true);
-      postApi(
+      putApi(
         `api/Profile/profile-update-email?customerId=${
           localStorage.getItem("customerID") || -1
         }&newEmail=${newEmail}`
@@ -95,7 +95,7 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
             });
         })
         .catch((err) => {
-          setLoadingEmail(false)
+          setLoadingEmail(false);
           console.log(err);
           messageApi.open({
             type: "error",

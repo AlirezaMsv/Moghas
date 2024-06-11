@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Input } from "antd";
-import { postApi } from "../../../hooks/api";
+import { putApi } from "../../../hooks/api";
 
 const ChangePass = ({ messageApi, setSelected }) => {
   const [pass, setPass] = useState("");
@@ -8,13 +8,13 @@ const ChangePass = ({ messageApi, setSelected }) => {
 
   const handleChange = () => {
     if (validatePasswords()) {
-      postApi(
+      putApi(
         `api/Profile/profile-update-password?customerId=${localStorage.getItem(
           "customerID"
         )}&newPassword=${pass}`
       )
         .then((data) => {
-          setSelected("1")
+          setSelected("1");
           messageApi.open({
             type: "success",
             content: "پسورد شما تغییر کرد!",
