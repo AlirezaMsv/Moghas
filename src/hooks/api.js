@@ -4,6 +4,12 @@ import axios from "axios";
 
 export const cancelToken = () => axios.CancelToken.source();
 
+// Function to delete a cookie by its name
+export function deleteCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+}
+
+
 export function getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);

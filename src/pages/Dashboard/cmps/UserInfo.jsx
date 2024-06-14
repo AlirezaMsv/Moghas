@@ -13,7 +13,7 @@ const UserInfo = ({ messageApi }) => {
 
   useEffect(() => {
     setLoading(true);
-    getApi(`api/Profile/get-customer-profile?customerId=${localStorage.getItem("customerID")}`)
+    getApi(`api/Profile/get-customer-profile?customerId=${localStorage.getItem("customerId")}`)
       .then((data) => {
         setID(data.id);
         setEmail(data.email);

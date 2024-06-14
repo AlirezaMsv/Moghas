@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Button, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
+import { useCookies } from "react-cookie";
 
 const SignUp = ({ setLoginEnable, messageApi, close }) => {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingOTP, setLoadingOTP] = useState(false);
+  const [setCookie] = useCookies(["user"]);
 
   const [OTP, setOTP] = useState(false);
   const [token, setToken] = useState("");
@@ -27,32 +29,36 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
         });
         setLoadingOTP(false);
         // login
-        postApi("api/CustomerAuthentication/login", {
-          email: email,
-          password: pass,
-        })
-          .then((data) => {
-            messageApi.open({
-              type: "success",
-              content: "با موفقیت وارد حساب خود شدید!",
-              style: {
-                fontFamily: "VazirFD",
-                direction: "rtl",
-              },
-            });
-            close();
-            setLoadingOTP(false);
+        setTimeout(() => {
+          postApi("api/CustomerAuthentication/login", {
+            email: email,
+            password: pass,
           })
-          .catch((err) => {
-            messageApi.open({
-              type: "error",
-              content: err.response.data ?? "خطایی رخ داد!",
-              style: {
-                fontFamily: "VazirFD",
-                direction: "rtl",
-              },
+            .then((data) => {
+              messageApi.open({
+                type: "success",
+                content: "با موفقیت وارد حساب خود شدید!",
+                style: {
+                  fontFamily: "VazirFD",
+                  direction: "rtl",
+                },
+              });
+              close();
+              localStorage.setItem("customerId", data.split(" ")[0]);
+              setCookie("sessionId", data.split(" ")[1], { path: "/" });
+              setLoadingOTP(false);
+            })
+            .catch((err) => {
+              messageApi.open({
+                type: "error",
+                content: err.response.data || "خطایی رخ داد!",
+                style: {
+                  fontFamily: "VazirFD",
+                  direction: "rtl",
+                },
+              });
             });
-          });
+        }, 1000);
         // end
       })
       .catch((err) => {
@@ -177,7 +183,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
           messageApi.open({
             type: "error",
             // content: "خطایی رخ داد!",
-            content: err.response.data,
+            content: err.response.data  || "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",
@@ -363,7 +369,12 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit" loading={loading} className="w-32">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="w-32"
+            >
               ثبت‌نام
             </Button>
           </Form.Item>

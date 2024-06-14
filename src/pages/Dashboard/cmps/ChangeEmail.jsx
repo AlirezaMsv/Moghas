@@ -61,13 +61,13 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
       setLoadingEmail(true);
       putApi(
         `api/Profile/profile-update-email?customerId=${
-          localStorage.getItem("customerID") || -1
+          localStorage.getItem("customerId") || -1
         }&newEmail=${newEmail}`
       )
         .then((data) => {
           postApi(
             `api/Profile/email-verification-code?customerId=${
-              localStorage.getItem("customerID") || -1
+              localStorage.getItem("customerId") || -1
             }&newEmail=${newEmail}`
           )
             .then((data) => {

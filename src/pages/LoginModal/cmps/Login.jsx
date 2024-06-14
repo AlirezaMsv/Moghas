@@ -14,7 +14,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [setCookie] = useCookies(["user"]);
 
   const validateLogin = () => {
     // Email validation
@@ -102,8 +102,8 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
         .then((data) => {
           // set cookie and customr ID
           setLoadingLogin(false);
-          localStorage.setItem("customerID", data.split(" ")[0]);
-          setCookie("sessionID", data.split(" ")[1], { path: "/" });
+          localStorage.setItem("customerId", data.split(" ")[0]);
+          setCookie("sessionId", data.split(" ")[1], { path: "/" });
           messageApi.open({
             type: "success",
             content: "با موفقیت وارد حساب خود شدید!",
@@ -118,11 +118,11 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
           close();
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           setLoadingLogin(false);
           messageApi.open({
             type: "error",
-            content: "خطایی رخ داد!",
+            content: err.response.data || "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",
@@ -449,7 +449,12 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit" loading={loadingLogin} className="w-32">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loadingLogin}
+              className="w-32"
+            >
               ورود
             </Button>
           </Form.Item>

@@ -12,6 +12,7 @@ import {
   ShareAltOutlined,
   SettingFilled,
   CarOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme, message } from "antd";
 import DashHeader from "./cmps/DashHeader";
@@ -21,8 +22,9 @@ import UserInfo from "./cmps/UserInfo";
 import Report from "./cmps/Report";
 import ChangeEmail from "./cmps/ChangeEmail";
 import ChangePass from "./cmps/ChangePass";
+import ConfigManager from "./cmps/ConfigManager";
 import { useCookies } from "react-cookie";
-import { postApi, putApi } from "../../hooks/api";
+import { deleteCookie, putApi } from "../../hooks/api";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -41,6 +43,7 @@ const items = [
     getItem("تغییر پسورد", "3_2", <SafetyOutlined />),
   ]),
   getItem("گزارش‌گیری", "4", <PieChartOutlined />),
+  getItem("مدیریت کانفیگ", "7", <InfoCircleOutlined />),
   getItem("مدیریت ماژول", "5", <TeamOutlined />, [
     getItem("سوالات پرتکرار", "5_1", <ShareAltOutlined />),
     getItem("تنظیمات ظاهری", "5_2", <SettingFilled />),
@@ -60,7 +63,7 @@ const Dashboard = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [showDonate, setShowDonate] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
-  const [cookies, removeCookie] = useCookies(["user"]);
+  const [cookies] = useCookies(["user"]);
 
   const handleMenuClick = (mi) => {
     // set bread items
@@ -81,7 +84,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("customerID")) window.location.replace("/");
+    if (!(localStorage.getItem("customerId") && cookies.sessionId))
+      window.location.replace("/");
     setBreadItems(["اطلاعات کاربری"]);
   }, []);
 
@@ -101,7 +105,7 @@ const Dashboard = () => {
           },
         });
         setTimeout(() => {
-          window.location.replace('/admin')
+          window.location.replace("/admin");
         }, 1000);
         break;
       // change email
@@ -124,12 +128,15 @@ const Dashboard = () => {
       // tour
       case "5_3":
         return;
+      // config manager
+      case "7":
+        return <ConfigManager messageApi={messageApi} />;
       // logout
       case "6":
-        localStorage.removeItem("customerID");
-        removeCookie("sessionID");
+        localStorage.removeItem("customerId");
+        deleteCookie("sessionId");
         putApi(
-          `api/CustomerAuthentication/logout?browserToken=${cookies.sessionID}`
+          `api/CustomerAuthentication/logout?browserToken=${cookies.sessionId}`
         )
           .then((data) => {
             messageApi.open({

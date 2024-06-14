@@ -10,7 +10,7 @@ const ChangePass = ({ messageApi, setSelected }) => {
     if (validatePasswords()) {
       putApi(
         `api/Profile/profile-update-password?customerId=${localStorage.getItem(
-          "customerID"
+          "customerId"
         )}&newPassword=${pass}`
       )
         .then((data) => {
