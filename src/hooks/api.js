@@ -148,6 +148,37 @@ export const putApi = async (endpoint, body, params, options) => {
   }
 };
 
+export const deleteApi = async (endpoint, params, options) => {
+  let fullUrl =
+    endpoint.indexOf(`${getServerUrl()}/`) === -1
+      ? `${getServerUrl()}/${endpoint}`
+      : endpoint;
+
+  if (params) {
+    fullUrl = fullUrl + "?";
+    Object.keys(params).forEach((element) => {
+      if (params[element] === undefined || params[element] === null)
+        throw new Error(
+          `The parameter '${element}' must be defined and cannot be null.`
+        );
+      else
+        fullUrl +=
+          element + "=" + encodeURIComponent("" + params[element]) + "&";
+    });
+    fullUrl = fullUrl.replace(/[?&]$/, "");
+  }
+
+  try {
+    const response = await axios.delete(fullUrl, {
+      ...options,
+      ...getOptions(params),
+    });
+    return normalizeResponse(response);
+  } catch (error) {
+    return await handleError(error);
+  }
+};
+
 export const getApi = async (endpoint, params, options) => {
   let fullUrl =
     endpoint.indexOf(`${getServerUrl()}/`) === -1

@@ -10,7 +10,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingOTP, setLoadingOTP] = useState(false);
-  const [setCookie] = useCookies(["user"]);
+  const [cookies, setCookie] = useCookies(["user"]);
 
   const [OTP, setOTP] = useState(false);
   const [token, setToken] = useState("");

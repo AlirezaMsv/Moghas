@@ -25,6 +25,9 @@ import ChangePass from "./cmps/ChangePass";
 import ConfigManager from "./cmps/ConfigManager";
 import { useCookies } from "react-cookie";
 import { deleteCookie, putApi } from "../../hooks/api";
+import FAQ from "./cmps/FAQ";
+import UI from "./cmps/UI";
+import TOUR from "./cmps/TOUR";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -121,13 +124,13 @@ const Dashboard = () => {
         return <Report />;
       // faq
       case "5_1":
-        return;
+        return <FAQ messageApi={messageApi} />
       // ui
       case "5_2":
-        return;
+        return <UI messageApi={messageApi} />
       // tour
       case "5_3":
-        return;
+        return <TOUR messageApi={messageApi} />
       // config manager
       case "7":
         return <ConfigManager messageApi={messageApi} />;

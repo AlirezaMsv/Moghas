@@ -14,7 +14,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
-  const [setCookie] = useCookies(["user"]);
+  const [cookies, setCookie] = useCookies(["user"]);
 
   const validateLogin = () => {
     // Email validation

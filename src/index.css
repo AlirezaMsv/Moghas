@@ -55,3 +55,7 @@ code {
   transform: rotate(180deg);
   transition: transform 0.5s ease-in-out; /* Optional: Adds a smooth transition */
 }
+
+.ant-popconfirm-description , .ant-popconfirm-title {
+  font-family: VazirFD !important;
+}
