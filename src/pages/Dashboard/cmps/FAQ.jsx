@@ -21,25 +21,15 @@ const FAQ = ({ messageApi }) => {
     )
       .then((res) => {
         setLoading(false);
-        if (res.length) {
-          const arr = [];
-          res.map((q, i) =>
-            arr.push({
-              key: q.id,
-              question: q.key,
-              answer: q.value,
-            })
-          );
-          setData(arr);
-        } else {
-          setData([
-            {
-              key: res.id,
-              question: res.key,
-              answer: res.value,
-            },
-          ]);
-        }
+        const arr = [];
+        res.map((q, i) =>
+          arr.push({
+            key: q.id,
+            question: q.key,
+            answer: q.value,
+          })
+        );
+        setData(arr);
       })
       .catch((err) => {
         console.log(err);
@@ -120,10 +110,11 @@ const FAQ = ({ messageApi }) => {
           showData={record ? true : false}
         />
       )}
-      {/* {loading ? (
-        <Spin />
-      ) : ( */}
       <Table
+        scroll={{
+          x: true,
+          y: true,
+        }}
         pagination={{
           position: ["none"],
         }}
@@ -184,7 +175,6 @@ const FAQ = ({ messageApi }) => {
           )}
         />
       </Table>
-      {/* )} */}
     </ConfigProvider>
   );
 };

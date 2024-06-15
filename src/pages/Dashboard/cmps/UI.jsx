@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ConfigProvider, Space, Table, Tag } from "antd";
+import { Button, ConfigProvider, Space, Table } from "antd";
 const { Column } = Table;
 const data = [
   {
@@ -59,7 +59,7 @@ const UI = ({ messageApi }) => (
         rowExpandable: (record) => record.name !== "Not Expandable",
       }}
     >
-      <Column title="نام تنظیمات" dataIndex="question" key="question" />
+      <Column title="عنوان تنظیمات" dataIndex="question" key="question" />
       <Column title="مقدار" dataIndex="answer" key="answer" />
       <Column
         title="Action"
