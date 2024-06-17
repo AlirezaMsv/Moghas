@@ -30,9 +30,10 @@ function FAQModal({
         });
       } else {
         setLoading(true);
-        putApi(
-          `api/CustomerSettings/update-key-value?settingId=${data.id}&newKey=${question}&newValue=${ans}`
-        )
+        putApi(`api/CustomerSettings/update-key-value?settingId=${data.id}`, {
+          key: question,
+          value: ans,
+        })
           .then((data) => {
             setLoading(false);
             messageApi.open({

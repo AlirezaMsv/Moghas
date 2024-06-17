@@ -59,3 +59,8 @@ code {
 .ant-popconfirm-description , .ant-popconfirm-title {
   font-family: VazirFD !important;
 }
+
+.ant-select-item-option-content{
+  display: flex;
+  justify-content: center;
+}

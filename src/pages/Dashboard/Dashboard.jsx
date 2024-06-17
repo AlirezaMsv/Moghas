@@ -46,10 +46,10 @@ const items = [
     getItem("تغییر پسورد", "3_2", <SafetyOutlined />),
   ]),
   getItem("گزارش‌گیری", "4", <PieChartOutlined />),
-  getItem("مدیریت کانفیگ", "7", <InfoCircleOutlined />),
+  getItem("مدیریت پیکربندی", "7", <InfoCircleOutlined />),
   getItem("مدیریت ماژول", "5", <TeamOutlined />, [
     getItem("سوالات پرتکرار", "5_1", <ShareAltOutlined />),
-    getItem("تنظیمات ظاهری", "5_2", <SettingFilled />),
+    getItem("تنظیمات واسط کاربری", "5_2", <SettingFilled />),
     getItem("مدیریت تورها", "5_3", <CarOutlined />),
   ]),
   getItem("خروج", "6", <PoweroffOutlined />),
@@ -124,13 +124,13 @@ const Dashboard = () => {
         return <Report />;
       // faq
       case "5_1":
-        return <FAQ messageApi={messageApi} />
+        return <FAQ messageApi={messageApi} />;
       // ui
       case "5_2":
-        return <UI messageApi={messageApi} />
+        return <UI messageApi={messageApi} />;
       // tour
       case "5_3":
-        return <TOUR messageApi={messageApi} />
+        return <TOUR messageApi={messageApi} />;
       // config manager
       case "7":
         return <ConfigManager messageApi={messageApi} />;
@@ -195,6 +195,7 @@ const Dashboard = () => {
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        width="20%"
         trigger={
           collapsed ? (
             <LeftCircleOutlined className="text-2xl" />

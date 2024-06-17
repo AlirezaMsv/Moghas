@@ -59,6 +59,7 @@ const EditStepModal = ({ isOpen, close, data, queue, setQueue, index, setCurrent
           <Input
             style={{
               direction: "ltr",
+              fontFamily: "unset"
             }}
             value={id}
             onChange={(e) => setId(e.target.value)}

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, ConfigProvider, Space, Spin, Table, Popconfirm } from "antd";
+import {
+  Button,
+  ConfigProvider,
+  Space,
+  Steps,
+  Table,
+  Popconfirm,
+  Breadcrumb,
+  Tooltip,
+} from "antd";
 import { deleteApi, getApi } from "../../../hooks/api";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import TOURModal from "./TOURModal";
@@ -13,6 +22,7 @@ const TOUR = ({ messageApi }) => {
   const [record, setRecord] = useState(undefined);
 
   useEffect(() => {
+    // load data
     setLoading(true);
     getApi(
       `api/CustomerSettings/get-setting?customerId=${localStorage.getItem(
@@ -25,8 +35,8 @@ const TOUR = ({ messageApi }) => {
         res.map((q, i) =>
           arr.push({
             key: q.id,
-            question: q.key,
-            answer: q.value,
+            name: q.key,
+            queue: q.value,
           })
         );
         setData(arr);
@@ -69,6 +79,19 @@ const TOUR = ({ messageApi }) => {
       });
   };
 
+  const handleSteps = (q) => {
+    return (
+      <Steps
+        direction="vertical"
+        size="small"
+        style={{
+          direction: "ltr",
+        }}
+        items={q}
+      />
+    );
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -89,6 +112,12 @@ const TOUR = ({ messageApi }) => {
             fontFamily: "VazirFD",
           },
           Steps: {
+            fontFamily: "VazirFD",
+          },
+          Breadcrumb: {
+            fontFamily: "VazirFD",
+          },
+          Tooltip: {
             fontFamily: "VazirFD",
           },
         },
@@ -131,14 +160,45 @@ const TOUR = ({ messageApi }) => {
                 margin: 0,
               }}
             >
-              {record.answer}
+              {handleSteps(JSON.parse(record.queue))}
             </p>
           ),
           rowExpandable: (record) => record.name !== "Not Expandable",
         }}
       >
         <Column title="نام تور" dataIndex="name" key="name" />
-        <Column title="محتویات تور" dataIndex="queue" key="queue" />
+        <Column
+          title="محتویات تور"
+          dataIndex="queue"
+          key="queue"
+          render={(_, record) => {
+            function itemRender(currentRoute) {
+              return (
+                <Tooltip
+                  overlayInnerStyle={{ direction: "rtl" }}
+                  color="cyan"
+                  title={
+                    <>
+                      <div>شناسه: {currentRoute.subTitle}</div>
+                      <div>نام مرحله: {currentRoute.title}</div>
+                      <div>توضیحات مرحله: {currentRoute.description}</div>
+                    </>
+                  }
+                >
+                  <span>{currentRoute.title}</span>
+                </Tooltip>
+              );
+            }
+
+            return (
+              <Breadcrumb
+                separator=">"
+                items={JSON.parse(record.queue)}
+                itemRender={itemRender}
+              />
+            );
+          }}
+        />
         <Column
           title="عملیات"
           key="action"
@@ -148,8 +208,8 @@ const TOUR = ({ messageApi }) => {
                 onClick={() => {
                   setRecord({
                     id: record.key,
-                    question: record.question,
-                    answer: record.answer,
+                    name: record.name,
+                    queue: record.queue,
                   });
                   setShowModal(true);
                 }}
