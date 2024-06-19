@@ -20,7 +20,7 @@
     "react-transition-group": "^4.4.5",
     "tailwindcss": "^3.4.3",
     "web-vitals": "^2.1.4",
-    "zustand": "^4.5.2"
+    "@canvasjs/react-charts": "*"
   },
   "scripts": {
     "start": "react-scripts start",

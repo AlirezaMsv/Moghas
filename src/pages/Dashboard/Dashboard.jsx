@@ -121,7 +121,7 @@ const Dashboard = () => {
         return <ChangePass messageApi={messageApi} setSelected={setSelected} />;
       // report
       case "4":
-        return <Report />;
+        return <Report messageApi={messageApi} />;
       // faq
       case "5_1":
         return <FAQ messageApi={messageApi} />;
