@@ -13,6 +13,7 @@ import {
   SettingFilled,
   CarOutlined,
   InfoCircleOutlined,
+  WechatOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme, message } from "antd";
 import DashHeader from "./cmps/DashHeader";
@@ -40,7 +41,7 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem("اطلاعات کاربری", "1", <DesktopOutlined />),
-  getItem("پنل ادمین", "2", <DesktopOutlined />),
+  getItem("پنل ادمین", "2", <WechatOutlined />),
   getItem("ویرایش اطلاعات", "3", <UserOutlined />, [
     getItem("تغییر ایمیل", "3_1", <MailOutlined />),
     getItem("تغییر پسورد", "3_2", <SafetyOutlined />),
