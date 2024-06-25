@@ -29,6 +29,7 @@ import { deleteCookie, putApi } from "../../hooks/api";
 import FAQ from "./cmps/FAQ";
 import UI from "./cmps/UI";
 import TOUR from "./cmps/TOUR";
+import { getApi } from "../../hooks/api";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -47,7 +48,7 @@ const items = [
     getItem("تغییر پسورد", "3_2", <SafetyOutlined />),
   ]),
   getItem("گزارش‌گیری", "4", <PieChartOutlined />),
-  getItem("مدیریت پیکربندی", "7", <InfoCircleOutlined />),
+  getItem("مدیریت بسته", "7", <InfoCircleOutlined />),
   getItem("مدیریت ماژول", "5", <TeamOutlined />, [
     getItem("سوالات پرتکرار", "5_1", <ShareAltOutlined />),
     getItem("تنظیمات واسط کاربری", "5_2", <SettingFilled />),
@@ -68,6 +69,7 @@ const Dashboard = () => {
   const [showDonate, setShowDonate] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [cookies] = useCookies(["user"]);
+  const [hasConfig, setHasConfig] = useState(false);
 
   const handleMenuClick = (mi) => {
     // set bread items
@@ -93,6 +95,43 @@ const Dashboard = () => {
     setBreadItems(["اطلاعات کاربری"]);
   }, []);
 
+  useEffect(() => {
+    getApi(`api/Config/get-config?browserToken=${cookies.sessionId}`)
+      .then((data) => {
+        if (data.configExpires < getCurrentDateTimeFormatted()) {
+          setHasConfig(false);
+        } else {
+          setHasConfig(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        messageApi.open({
+          type: "error",
+          content: "خطایی رخ داد!",
+          style: {
+            fontFamily: "VazirFD",
+            direction: "rtl",
+          },
+        });
+      });
+  }, [selected]);
+
+  function getCurrentDateTimeFormatted() {
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+    const microseconds = String(now.getTime() % 1000).padStart(3, "0"); // Assuming microseconds are derived from milliseconds
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}${microseconds}`;
+  }
+
   const getContent = useCallback(() => {
     switch (selected) {
       // userInfo
@@ -100,17 +139,28 @@ const Dashboard = () => {
         return <UserInfo messageApi={messageApi} />;
       // admin panel
       case "2":
-        messageApi.open({
-          type: "info",
-          content: "برووو بریییم!",
-          style: {
-            fontFamily: "VazirFD",
-            direction: "rtl",
-          },
-        });
-        setTimeout(() => {
-          window.location.replace("/admin");
-        }, 1000);
+        if (!hasConfig) {
+          messageApi.open({
+            type: "info",
+            content: "ابتدا یک بسته بسازید",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        } else {
+          messageApi.open({
+            type: "info",
+            content: "برووو بریییم!",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+          setTimeout(() => {
+            window.location.replace("/admin");
+          }, 1000);
+        }
         break;
       // change email
       case "3_1":
@@ -122,16 +172,52 @@ const Dashboard = () => {
         return <ChangePass messageApi={messageApi} setSelected={setSelected} />;
       // report
       case "4":
-        return <Report messageApi={messageApi} />;
+        if (!hasConfig) {
+          messageApi.open({
+            type: "info",
+            content: "ابتدا یک بسته بسازید",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        } else return <Report messageApi={messageApi} />;
       // faq
       case "5_1":
-        return <FAQ messageApi={messageApi} />;
+        if (!hasConfig) {
+          messageApi.open({
+            type: "info",
+            content: "ابتدا یک بسته بسازید",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        } else return <FAQ messageApi={messageApi} />;
       // ui
       case "5_2":
-        return <UI messageApi={messageApi} />;
+        if (!hasConfig) {
+          messageApi.open({
+            type: "info",
+            content: "ابتدا یک بسته بسازید",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        } else return <UI messageApi={messageApi} />;
       // tour
       case "5_3":
-        return <TOUR messageApi={messageApi} />;
+        if (!hasConfig) {
+          messageApi.open({
+            type: "info",
+            content: "ابتدا یک بسته بسازید",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        } else return <TOUR messageApi={messageApi} />;
       // config manager
       case "7":
         return <ConfigManager messageApi={messageApi} />;

@@ -1,12 +1,11 @@
-import {} from "@ant-design/icons";
-import { render } from "@testing-library/react";
-import { Badge, ConfigProvider, Layout, Tabs } from "antd";
-import { useState } from "react";
+import { LogoutOutlined } from "@ant-design/icons";
+import { Badge, Button, ConfigProvider, Layout, Tabs, message } from "antd";
+import { useEffect, useState } from "react";
 import ChatList from "./cmps/ChatList";
 // import { ProChat } from "@ant-design/pro-chat";
+import { getApi } from "../../hooks/api";
+import { useCookies } from "react-cookie";
 const { Header, Content, Footer, Sider } = Layout;
-
-
 
 const headerStyle = {
   textAlign: "center",
@@ -48,34 +47,204 @@ const layoutStyle = {
 };
 
 const PanelAdmin = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const [selectedTab, setSelectedTab] = useState("1");
+  const [chats, setChats] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [cookies] = useCookies(["user"]);
+  const [chatListLoading, setChatListLoading] = useState(false);
+  const [unread, setUnread] = useState(0);
+
+  useEffect(() => {
+    if (!(localStorage.getItem("customerId") && cookies.sessionId))
+      window.location.replace("/");
+  }, []);
 
   const chatCategory = [
     {
       key: "1",
       label: (
-        <Badge count={4} offset={[-74, 0]}>
-          <p style={{ color: selectedTab === "1" ? "#f39c12" : "#000" }}>چت‌های باز</p>
+        <Badge count={unread} offset={[-74, 0]}>
+          <p style={{ color: selectedTab === "1" ? "#f39c12" : "#000" }}>
+            چت‌های باز
+          </p>
         </Badge>
       ),
-      children: <ChatList />,
+      children: <ChatList data={chats} loading={chatListLoading} />,
     },
     {
       key: "2",
       label: "چت‌های پایان یافته",
-      children: <ChatList />,
+      children: <ChatList data={chats} loading={chatListLoading} />,
     },
     {
       key: "3",
       label: "همه چت‌ها",
-      children: <ChatList />,
+      children: <ChatList data={chats} loading={chatListLoading} />,
     },
   ];
 
   const onTabSelect = (e) => {
-    setSelectedTab(e)
-  }
+    setSelectedTab(e);
+  };
+
+  useEffect(() => {
+    switch (selectedTab) {
+      // open
+      case "1":
+        setChatListLoading(true);
+        getApi(
+          `api/ChatList/get-unfinished-chats?customerId=${localStorage.getItem(
+            "customerId"
+          )}`
+        )
+          .then((data) => {
+            setUnread(data.length);
+            const promises = data.map((c) => {
+              return getApi(`api/Chat/get-last-message?chatId=${c.id}`).then(
+                (CData) => ({
+                  id: c.id,
+                  title: c.userName,
+                  lastMessage: CData.text,
+                })
+              );
+            });
+
+            Promise.all(promises)
+              .then((chats) => {
+                setChats(chats);
+                setChatListLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+                setChatListLoading(false);
+                messageApi.open({
+                  type: "error",
+                  content: "خطایی رخ داد!",
+                  style: {
+                    fontFamily: "VazirFD",
+                    direction: "rtl",
+                  },
+                });
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+            setChatListLoading(false);
+            messageApi.open({
+              type: "error",
+              content: "خطایی رخ داد!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          });
+
+        break;
+      // finished
+      case "2":
+        setChatListLoading(true);
+        getApi(
+          `api/ChatList/get-finished-chats?customerId=${localStorage.getItem(
+            "customerId"
+          )}`
+        )
+          .then((data) => {
+            const promises = data.map((c) => {
+              return getApi(`api/Chat/get-last-message?chatId=${c.id}`).then(
+                (CData) => ({
+                  id: c.id,
+                  title: c.userName,
+                  lastMessage: CData.text,
+                })
+              );
+            });
+
+            Promise.all(promises)
+              .then((chats) => {
+                setChats(chats);
+                setChatListLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+                setChatListLoading(false);
+                messageApi.open({
+                  type: "error",
+                  content: "خطایی رخ داد!",
+                  style: {
+                    fontFamily: "VazirFD",
+                    direction: "rtl",
+                  },
+                });
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+            setChatListLoading(false);
+            messageApi.open({
+              type: "error",
+              content: "خطایی رخ داد!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          });
+
+        break;
+      //all
+      case "3":
+        setChatListLoading(true);
+        getApi(
+          `api/ChatList/get-all-chats?customerId=${localStorage.getItem(
+            "customerId"
+          )}`
+        )
+          .then((data) => {
+            const promises = data.map((c) => {
+              return getApi(`api/Chat/get-last-message?chatId=${c.id}`).then(
+                (CData) => ({
+                  id: c.id,
+                  title: c.userName,
+                  lastMessage: CData.text,
+                })
+              );
+            });
+
+            Promise.all(promises)
+              .then((chats) => {
+                setChats(chats);
+                setChatListLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+                setChatListLoading(false);
+                messageApi.open({
+                  type: "error",
+                  content: "خطایی رخ داد!",
+                  style: {
+                    fontFamily: "VazirFD",
+                    direction: "rtl",
+                  },
+                });
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+            setChatListLoading(false);
+            messageApi.open({
+              type: "error",
+              content: "خطایی رخ داد!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          });
+
+        break;
+    }
+  }, [selectedTab]);
 
   return (
     <ConfigProvider
@@ -91,9 +260,13 @@ const PanelAdmin = () => {
           Badge: {
             fontFamily: "VazirFD",
           },
+          Button: {
+            fontFamily: "VazirFD",
+          },
         },
       }}
     >
+      {contextHolder}
       <Layout
         style={{
           minHeight: "100vh",
@@ -102,10 +275,19 @@ const PanelAdmin = () => {
         // style={layoutStyle}
       >
         <Sider
+          collapsed={false}
           collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-          trigger={null}
+          trigger={
+            <Button
+              className=""
+              icon={<LogoutOutlined />}
+              onClick={() => {
+                window.location.replace("/dashboard");
+              }}
+            >
+              بازگشت به داشبورد
+            </Button>
+          }
           width="30%"
           style={siderStyle}
         >

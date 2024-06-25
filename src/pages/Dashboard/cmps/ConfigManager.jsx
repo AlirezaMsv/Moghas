@@ -144,13 +144,13 @@ const ConfigManager = ({ messageApi }) => {
   return hasConfig ? (
     <div className={style.informations}>
       <div className={style.box}>
-        <p>{`نام کاربری کانفیگ: ${configUsername}`}</p>
+        <p>{`نام کاربری بسته: ${configUsername}`}</p>
       </div>
       <div className={style.box}>
-        <p>{`تاریخ ایجاد کانفیگ: ${configCreatedAt}`}</p>
+        <p>{`تاریخ ایجاد بسته: ${configCreatedAt}`}</p>
       </div>
       <div className={style.box}>
-        <p>{`تاریخ پایان کانفیگ: ${configExpired}`}</p>
+        <p>{`تاریخ پایان بسته: ${configExpired}`}</p>
       </div>
     </div>
   ) : (
@@ -164,7 +164,6 @@ const ConfigManager = ({ messageApi }) => {
       }}
     >
       <Form
-        name="basic"
         disabled={loading}
         onFinish={handleSubmit}
         labelCol={{

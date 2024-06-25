@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Button, ConfigProvider, Form, Input } from "antd";
 import { postApi } from "../../../hooks/api";
 import { useCookies } from "react-cookie";
@@ -73,15 +73,6 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
         setLoadingOTP(false);
       });
   };
-
-  const resetForm = useCallback(() => {
-    setEmail("");
-    setOTP(false);
-    setPass("");
-    setrepeatPass("");
-    setToken("");
-    setUrl("");
-  }, []);
 
   const validateInputs = () => {
     // Email validation
@@ -183,7 +174,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
           messageApi.open({
             type: "error",
             // content: "خطایی رخ داد!",
-            content: err.response.data  || "خطایی رخ داد!",
+            content: err.response.data || "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",
@@ -218,9 +209,9 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
             span: 20,
           }}
           style={{
-            width: "80vh",
             direction: "ltr",
           }}
+          className="mx-auto"
           initialValues={{
             remember: false,
           }}
@@ -271,9 +262,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
           wrapperCol={{
             span: 14,
           }}
-          style={{
-            width: "80vh",
-          }}
+          className="mx-auto"
           initialValues={{
             remember: false,
           }}

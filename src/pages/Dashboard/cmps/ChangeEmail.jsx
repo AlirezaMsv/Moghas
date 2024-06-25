@@ -142,7 +142,6 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
         </Form>
       ) : (
         <Form
-          name="basic"
           disabled={loadingEmail}
           onFinish={handleChange}
           labelCol={{
@@ -160,7 +159,7 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
           autoComplete="off"
           layout="inline"
         >
-          <Form.Item className="w-96" label="Email" name="email">
+          <Form.Item className="w-96" label="New Email" name="email">
             <Input
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}

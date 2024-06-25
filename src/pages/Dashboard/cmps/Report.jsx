@@ -125,7 +125,7 @@ const Report = ({ messageApi }) => {
                 console.log(err);
                 messageApi.open({
                   type: "error",
-                  content: "خطایی رخ داد!",
+                  content: err?.response?.data || "خطایی رخ داد!",
                   style: {
                     fontFamily: "VazirFD",
                     direction: "rtl",
@@ -137,7 +137,7 @@ const Report = ({ messageApi }) => {
             console.log(err);
             messageApi.open({
               type: "error",
-              content: "خطایی رخ داد!",
+              content: err?.response?.data || "خطایی رخ داد!",
               style: {
                 fontFamily: "VazirFD",
                 direction: "rtl",
@@ -149,7 +149,7 @@ const Report = ({ messageApi }) => {
         console.log(err);
         messageApi.open({
           type: "error",
-          content: "خطایی رخ داد!",
+          content: err?.response?.data || "خطایی رخ داد!",
           style: {
             fontFamily: "VazirFD",
             direction: "rtl",

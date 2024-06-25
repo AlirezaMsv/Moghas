@@ -234,9 +234,9 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
             span: 20,
           }}
           style={{
-            width: "80vh",
             direction: "ltr",
           }}
+          className="mx-auto"
           initialValues={{
             remember: false,
           }}
@@ -308,9 +308,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
         wrapperCol={{
           span: 14,
         }}
-        style={{
-          width: "80vh",
-        }}
+        className="mx-auto"
         initialValues={{
           remember: false,
         }}
@@ -392,7 +390,6 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
         forgotPassForm()
       ) : (
         <Form
-          name="basic"
           disabled={loadingLogin}
           onFinish={handleLogin}
           labelCol={{
@@ -401,9 +398,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
           wrapperCol={{
             span: 14,
           }}
-          style={{
-            width: "80vh",
-          }}
+          className="mx-auto"
           initialValues={{
             remember: false,
           }}

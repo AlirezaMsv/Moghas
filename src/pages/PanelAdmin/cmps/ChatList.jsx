@@ -1,43 +1,26 @@
 import React from "react";
-import { Avatar, Badge, List } from "antd";
-const data = [
-  {
-    title: "احمد محسن",
-  },
-  {
-    title: "محمد",
-  },
-  {
-    title: "علی",
-  },
-  {
-    title: "نیوشا",
-  },
-];
-const ChatList = () => (
+import { Avatar, List } from "antd";
+const ChatList = ({ data, loading }) => (
   <List
     itemLayout="horizontal"
     dataSource={data}
     bordered
     className="m-2"
+    loading={loading}
     renderItem={(item, index) => (
       <List.Item>
         <List.Item.Meta
           className="font hover:bg-gray-100 rounded-xl cursor-pointer"
           avatar={
-            <Badge count={index} offset={[-50, 6]}>
+            // <Badge count={index} offset={[-50, 6]}>
               <Avatar
                 src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
                 className="w-14 h-full"
               />
-            </Badge>
+            // </Badge>
           }
-          title={
-            <a className="font" href="#">
-              {item.title}
-            </a>
-          }
-          description="آخرین پیام"
+          title={<a>{item.title}</a>}
+          description={item.lastMessage}
         />
       </List.Item>
     )}

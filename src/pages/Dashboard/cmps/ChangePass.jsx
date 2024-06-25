@@ -73,7 +73,7 @@ const ChangePass = ({ messageApi, setSelected }) => {
       onFinish={handleChange}
       name="basic"
       labelCol={{
-        span: 8,
+        span: 10,
       }}
       wrapperCol={{
         span: 16,
@@ -86,17 +86,17 @@ const ChangePass = ({ messageApi, setSelected }) => {
       }}
       autoComplete="off"
     >
-      <Form.Item label="Password" name="pass" className="mx-12">
+      <Form.Item label="New Password" name="pass" className="mx-12">
         <Input.Password
-          className="w-56 mx-2"
+          className="w-48 mx-2"
           value={pass}
           onChange={(e) => setPass(e.target.value)}
         />
       </Form.Item>
 
-      <Form.Item label="Repeat Password" name="repeatPass" className="mx-12">
+      <Form.Item label="Repeat New Password" name="repeatPass" className="mx-12">
         <Input.Password
-          className="w-56 mx-2"
+          className="w-48 mx-2"
           value={repeatPass}
           onChange={(e) => setRepeatPass(e.target.value)}
         />
@@ -104,7 +104,7 @@ const ChangePass = ({ messageApi, setSelected }) => {
 
       <Form.Item
         wrapperCol={{
-          offset: 8,
+          offset: 4,
           span: 16,
         }}
       >

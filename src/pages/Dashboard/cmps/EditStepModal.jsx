@@ -38,7 +38,6 @@ const EditStepModal = ({ isOpen, close, data, queue, setQueue, index, setCurrent
       onCancel={close}
     >
       <Form
-        name="basic"
         onFinish={handleSubmit}
         labelCol={{
           span: 6,
