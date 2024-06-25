@@ -238,7 +238,7 @@ const UI = ({ messageApi }) => {
         return "وارد کردن نام کاربری الزامی است؟";
 
       case "requirePhone":
-        return "وارد کردن شماره تلفن الزامی است؟";
+        return "پشتیبان آنلاین است؟";
 
       case "chat_background":
         return "رنگ پس زمینه‌ چت";
