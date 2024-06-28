@@ -14,6 +14,7 @@ import {
   CarOutlined,
   InfoCircleOutlined,
   WechatOutlined,
+  CoffeeOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme, message } from "antd";
 import DashHeader from "./cmps/DashHeader";
@@ -30,6 +31,7 @@ import FAQ from "./cmps/FAQ";
 import UI from "./cmps/UI";
 import TOUR from "./cmps/TOUR";
 import { getApi } from "../../hooks/api";
+import Contact from "./cmps/Contact";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -53,6 +55,7 @@ const items = [
     getItem("سوالات پرتکرار", "5_1", <ShareAltOutlined />),
     getItem("تنظیمات واسط کاربری", "5_2", <SettingFilled />),
     getItem("مدیریت تورها", "5_3", <CarOutlined />),
+    getItem("اطلاعات تماس", "5_4", <CoffeeOutlined />),
   ]),
   getItem("خروج", "6", <PoweroffOutlined />),
 ];
@@ -218,6 +221,18 @@ const Dashboard = () => {
             },
           });
         } else return <TOUR messageApi={messageApi} />;
+      // contact
+      case "5_4":
+        if (!hasConfig) {
+          messageApi.open({
+            type: "info",
+            content: "ابتدا یک بسته بسازید",
+            style: {
+              fontFamily: "VazirFD",
+              direction: "rtl",
+            },
+          });
+        } else return <Contact messageApi={messageApi} />;
       // config manager
       case "7":
         return <ConfigManager messageApi={messageApi} />;

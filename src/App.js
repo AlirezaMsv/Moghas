@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import PanelAdmin from "./pages/PanelAdmin/PanelAdmin";
 import "./App.css";
 import { useEffect } from "react";
+import NotFound from "./pages/NotFound";
 // import { CookiesProvider, useCookies } from "react-cookie";
 
 function App() {
@@ -17,24 +18,15 @@ function App() {
     );
   }, []);
 
-  // const UserContext = createContext();
-
   return (
-    // <div className="App">
-    //   <CookiesProvider>
-    //     <UserContext.Provider
-    //       value={{}}
-    //     >
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<PanelAdmin />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
-    //     </UserContext.Provider>
-    //   </CookiesProvider>
-    // </div>
   );
 }
 

@@ -47,6 +47,9 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
               localStorage.setItem("customerId", data.split(" ")[0]);
               setCookie("sessionId", data.split(" ")[1], { path: "/" });
               setLoadingOTP(false);
+              setTimeout(() => {
+                window.location.replace("/dashboard");
+              }, 1000);
             })
             .catch((err) => {
               messageApi.open({
