@@ -203,7 +203,7 @@ const Report = ({ messageApi }) => {
         fontSize: 12,
       },
       axisY: {
-        title: "تعداد اسناد",
+        title: "تعداد چت ها",
         titleFontFamily: "VazirFD",
         labelFontFamily: "VazirFD",
         // valueFormatString: "M"
