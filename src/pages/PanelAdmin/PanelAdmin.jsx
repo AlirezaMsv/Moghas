@@ -2,10 +2,12 @@ import { LogoutOutlined } from "@ant-design/icons";
 import { Badge, Button, ConfigProvider, Layout, Tabs, message } from "antd";
 import { useEffect, useState } from "react";
 import ChatList from "./cmps/ChatList";
-// import { ProChat } from "@ant-design/pro-chat";
 import { getApi } from "../../hooks/api";
 import { useCookies } from "react-cookie";
-const { Header, Content, Footer, Sider } = Layout;
+import Chat from "./cmps/Chat";
+import TourModal from "./cmps/ToursModal";
+
+const { Content, Sider } = Layout;
 
 const headerStyle = {
   textAlign: "center",
@@ -53,11 +55,25 @@ const PanelAdmin = () => {
   const [cookies] = useCookies(["user"]);
   const [chatListLoading, setChatListLoading] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [showChat, setShowChat] = useState(false);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChatUsername, setSelectedChatUsername] = useState("");
+  const [showTourModal, setShowTourModal] = useState(false);
+  const [selectedTour, setSeletedTour] = useState();
+  const [tourName, setTourName] = useState();
 
   useEffect(() => {
     if (!(localStorage.getItem("customerId") && cookies.sessionId))
       window.location.replace("/");
   }, []);
+
+  useEffect(() => {
+    if (selectedChat) {
+      setShowChat(true);
+    } else {
+      setShowChat(false);
+    }
+  }, [selectedChat]);
 
   const chatCategory = [
     {
@@ -69,17 +85,41 @@ const PanelAdmin = () => {
           </p>
         </Badge>
       ),
-      children: <ChatList data={chats} loading={chatListLoading} />,
+      children: (
+        <ChatList
+          data={chats}
+          loading={chatListLoading}
+          setChatId={setSelectedChat}
+          setSelectedChatUsername={setSelectedChatUsername}
+          chatId={selectedChat}
+        />
+      ),
     },
     {
       key: "2",
       label: "چت‌های پایان یافته",
-      children: <ChatList data={chats} loading={chatListLoading} />,
+      children: (
+        <ChatList
+          data={chats}
+          loading={chatListLoading}
+          setChatId={setSelectedChat}
+          setSelectedChatUsername={setSelectedChatUsername}
+          chatId={selectedChat}
+        />
+      ),
     },
     {
       key: "3",
       label: "همه چت‌ها",
-      children: <ChatList data={chats} loading={chatListLoading} />,
+      children: (
+        <ChatList
+          data={chats}
+          loading={chatListLoading}
+          setChatId={setSelectedChat}
+          setSelectedChatUsername={setSelectedChatUsername}
+          chatId={selectedChat}
+        />
+      ),
     },
   ];
 
@@ -263,10 +303,22 @@ const PanelAdmin = () => {
           Button: {
             fontFamily: "VazirFD",
           },
+          Tooltip: {
+            fontFamily: "VazirFD",
+          },
         },
       }}
     >
       {contextHolder}
+      {showTourModal && (
+        <TourModal
+          isOpen={showTourModal}
+          close={() => setShowTourModal(false)}
+          messageApi={messageApi}
+          setSeletedTour={setSeletedTour}
+          setTourName={setTourName}
+        />
+      )}
       <Layout
         style={{
           minHeight: "100vh",
@@ -299,6 +351,21 @@ const PanelAdmin = () => {
             onChange={onTabSelect}
           />
         </Sider>
+        <Content>
+          {showChat && (
+            <Chat
+              chatId={selectedChat}
+              messageApi={messageApi}
+              selectedChatUsername={selectedChatUsername}
+              setShowChat={setShowChat}
+              setShowTourModal={setShowTourModal}
+              selectedTour={selectedTour}
+              setSeletedTour={setSeletedTour}
+              tourName={tourName}
+              setTourName={setTourName}
+            />
+          )}
+        </Content>
       </Layout>
     </ConfigProvider>
   );
