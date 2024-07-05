@@ -27,7 +27,7 @@ const ChatList = ({
             setChatId(item.id);
             setSelectedChatUsername(item.title);
           }}
-          className={chatId == item.id ? "bg-gray-100" : ""}
+          className={chatId === item.id ? "bg-gray-100" : ""}
         >
           <List.Item.Meta
             className="font hover:bg-gray-100 rounded-xl cursor-pointer"

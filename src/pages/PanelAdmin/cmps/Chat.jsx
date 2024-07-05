@@ -25,7 +25,10 @@ const Chat = ({
   const handleSendMessage = () => {
     setMessageLoading(true);
     console.log(text);
-    postApi(`api/Chat/send-customer-message?chatId=${chatId}&message=${text}`)
+    postApi(`api/Chat/send-customer-message`, {
+      chatId: chatId,
+      message: text,
+    })
       .then((data) => {
         // Adding the new message to the messages array
         setMessages((prevMessages) => [
@@ -87,11 +90,10 @@ const Chat = ({
     // send tour
     if (selectedTour) {
       setMessageLoading(true);
-      postApi(
-        `api/Chat/send-customer-message?chatId=${chatId}&message=${
-          "tour" + tourName + selectedTour
-        }`
-      )
+      postApi(`api/Chat/send-customer-message`, {
+        chatId: chatId,
+        message: "tour" + tourName + selectedTour,
+      })
         .then((data) => {
           // Adding the new message to the messages array
           setMessages((prevMessages) => [

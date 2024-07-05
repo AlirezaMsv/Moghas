@@ -22,7 +22,7 @@ const Homepage = () => {
   const [cookies] = useCookies(["user"]);
 
   useEffect(() => {
-    if (localStorage.getItem("customerId" && cookies.sessionId)) {
+    if (localStorage.getItem("customerId") && cookies.sessionId) {
       window.location.replace("/dashboard");
     }
   }, []);
