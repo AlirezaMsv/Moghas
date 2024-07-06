@@ -8,7 +8,7 @@ const ChatList = ({
   chatId,
 }) => {
   const getContent = (x) => {
-    if (x.startsWith("tour")) {
+    if (x?.startsWith("tour")) {
       return x.slice(4, x.indexOf("["));
     } else {
       return x;
