@@ -363,6 +363,7 @@ const PanelAdmin = () => {
               setSeletedTour={setSeletedTour}
               tourName={tourName}
               setTourName={setTourName}
+              setChatId={setSelectedChat}
             />
           )}
         </Content>

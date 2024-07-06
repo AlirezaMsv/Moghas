@@ -54,7 +54,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
             .catch((err) => {
               messageApi.open({
                 type: "error",
-                content: err.response.data || "خطایی رخ داد!",
+                content: "خطایی رخ داد!",
                 style: {
                   fontFamily: "VazirFD",
                   direction: "rtl",
@@ -176,8 +176,7 @@ const SignUp = ({ setLoginEnable, messageApi, close }) => {
         .catch((err) => {
           messageApi.open({
             type: "error",
-            // content: "خطایی رخ داد!",
-            content: err.response.data || "خطایی رخ داد!",
+            content: "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",

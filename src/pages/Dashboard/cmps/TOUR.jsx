@@ -46,8 +46,7 @@ const TOUR = ({ messageApi }) => {
         setData([]);
         messageApi.open({
           type: "error",
-          // content: "خطایی رخ داد!",
-          content: err.response.data || "خطایی رخ داد!",
+          content: "خطایی رخ داد!",
           style: {
             fontFamily: "VazirFD",
             direction: "rtl",
@@ -68,8 +67,7 @@ const TOUR = ({ messageApi }) => {
         console.log(err);
         messageApi.open({
           type: "error",
-          // content: "خطایی رخ داد!",
-          content: err.response.data || "خطایی رخ داد!",
+          content: "خطایی رخ داد!",
           style: {
             fontFamily: "VazirFD",
             direction: "rtl",

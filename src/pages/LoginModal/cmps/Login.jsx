@@ -122,7 +122,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
           setLoadingLogin(false);
           messageApi.open({
             type: "error",
-            content: err.response.data || "خطایی رخ داد!",
+            content: "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",
@@ -157,7 +157,6 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
             .catch((err) => {
               messageApi.open({
                 type: "error",
-                // content: "خطایی رخ داد!",
                 content: err.response.data,
                 style: {
                   fontFamily: "VazirFD",
@@ -170,7 +169,7 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
         .catch((err) => {
           messageApi.open({
             type: "error",
-            content: err.response.data || "خطایی رخ داد!",
+            content: "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",
@@ -207,7 +206,6 @@ const Login = ({ setSignupEnable, messageApi, close }) => {
         .catch((err) => {
           messageApi.open({
             type: "error",
-            // content: "خطایی رخ داد!",
             content: err.response.data,
             style: {
               fontFamily: "VazirFD",

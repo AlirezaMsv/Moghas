@@ -46,7 +46,7 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
         console.log(err);
         messageApi.open({
           type: "error",
-          content: err.response.data || "خطایی رخ داد!",
+          content: "خطایی رخ داد!",
           style: {
             fontFamily: "VazirFD",
             direction: "rtl",
@@ -86,7 +86,7 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
               console.log(err);
               messageApi.open({
                 type: "error",
-                content: err.response.data || "خطایی رخ داد!",
+                content: "خطایی رخ داد!",
                 style: {
                   fontFamily: "VazirFD",
                   direction: "rtl",
@@ -99,7 +99,7 @@ const ChangeEmail = ({ messageApi, setSelected }) => {
           console.log(err);
           messageApi.open({
             type: "error",
-            content: err.response.data || "خطایی رخ داد!",
+            content: "خطایی رخ داد!",
             style: {
               fontFamily: "VazirFD",
               direction: "rtl",

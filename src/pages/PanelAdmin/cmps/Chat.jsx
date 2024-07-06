@@ -14,6 +14,7 @@ const Chat = ({
   selectedTour,
   tourName,
   setTourName,
+  setChatId,
 }) => {
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
@@ -188,6 +189,7 @@ const Chat = ({
   const closeChat = () => {
     clearInterval(intervalId);
     setShowChat(false);
+    setChatId(null);
   };
 
   return (
