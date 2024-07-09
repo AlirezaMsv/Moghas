@@ -1,0 +1,30 @@
+.informations {
+  font-family: "VazirFD";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  direction: rtl;
+  margin-top: 1.5rem;
+}
+
+.box {
+  flex: 0 0 calc(50% - 4rem);
+  margin-top: 1.5rem;
+  font-weight: bolder;
+  font-size: 1.25em;
+}
+
+.informations2 {
+  font-family: "VazirFD";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  direction: rtl;
+}
+
+.box2 {
+  flex: 0 0 calc(50% - 4rem);
+  margin-bottom: 1rem;
+  font-weight: bolder;
+  font-size: 1em;
+}

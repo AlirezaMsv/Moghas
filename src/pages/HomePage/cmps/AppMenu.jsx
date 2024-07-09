@@ -1,19 +1,11 @@
-import React, { useState } from "react";
 import { Menu, Button, ConfigProvider } from "antd";
-import { DownOutlined, LockFilled } from "@ant-design/icons";
+import { LockFilled, SmileFilled } from "@ant-design/icons";
 import { TinyColor } from "@ctrl/tinycolor";
 import "./AppMenu.module.css";
 import icon from "../../../assets/logos/icon.png";
-import style from "./AppMenu.module.css";
 
-const { SubMenu } = Menu;
-
-const AppMenu = () => {
-  const [submenuOpen, setSubmenuOpen] = useState(false);
-
-  const handleSubmenuChange = (openKeys) => {
-    setSubmenuOpen(openKeys.includes("sub1"));
-  };
+const AppMenu = ({ openLS, openDonate, openSupport, openDemo, messageApi }) => {
+  const colors2 = ["#fc6076", "#ff9a44", "#ef9d43", "#e75516"];
   const colors3 = ["#40e495", "#30dd8a", "#2bb673"];
   const getHoverColors = (colors) =>
     colors.map((color) => new TinyColor(color).lighten(5).toString());
@@ -23,45 +15,61 @@ const AppMenu = () => {
   return (
     <Menu
       mode="horizontal"
-      className="items-center bg-gray-100 p-4"
+      className="items-center p-4"
       style={{
         direction: "rtl",
+        backgroundColor: "#f5f8fe"
       }}
     >
-      <img className="w-14 mx-32" src={icon} />
+      <img className="w-14 mx-8" src={icon} />
       <Menu
+        selectedKeys={[]}
         mode="horizontal"
-        className="basis-5/6 flex justify-center"
-        onOpenChange={handleSubmenuChange}
+        className="basis-5/6 flex justify-center rounded-2xl"
       >
-        <SubMenu
-          key="sub1"
-          title={
-            <span>
-              چرا موقاس؟
-              <DownOutlined
-                className={`${style.transition_transform} ${
-                  submenuOpen ? style.rotate_180 : ""
-                }`}
-              />
-            </span>
-          }
+        <Menu.Item
+          onClick={() => {
+            const element = document.getElementById("usage");
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
         >
-          <Menu.ItemGroup title="بررسی اجمالی">
-            <Menu.Item key="overview">بررسی اجمالی تسکولو</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup title="ویژگی‌ها و امکانات">
-            <Menu.Item key="feature1">مدیریت کارها</Menu.Item>
-            <Menu.Item key="feature2">برگزاری جلسات آنلاین</Menu.Item>
-            <Menu.Item key="feature3">تحلیلگر</Menu.Item>
-            <Menu.Item key="feature4">سایر ویژگی های تسکولو</Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
-        <Menu.Item key="2">راهکارها</Menu.Item>
-        <Menu.Item key="3">موارد استفاده</Menu.Item>
-        <Menu.Item key="4">قیمت‌ها</Menu.Item>
-        <Menu.Item key="5">وبلاگ</Menu.Item>
-        <Menu.Item key="6">پشتیبانی</Menu.Item>
+          موارد استفاده
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            messageApi.open({
+              type: "info",
+              content: "در حال توسعه هستیم!",
+              style: {
+                fontFamily: "VazirFD",
+                direction: "rtl",
+              },
+            });
+          }}
+        >
+          وبلاگ
+        </Menu.Item>
+        <Menu.Item onClick={openDemo}>درخواست دمو</Menu.Item>
+
+        <Menu.Item
+          onClick={() => {
+            const element = document.getElementById("customers");
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+        >
+          مشتریان
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            openSupport();
+          }}
+        >
+          پشتیبانی
+        </Menu.Item>
       </Menu>
       <div className="mx-8 flex items-center gap-4">
         {/* login button */}
@@ -82,7 +90,12 @@ const AppMenu = () => {
             },
           }}
         >
-          <Button type="primary" size="large" icon={<LockFilled />}>
+          <Button
+            onClick={openLS}
+            type="primary"
+            size="large"
+            icon={<LockFilled />}
+          >
             وارد شوید
           </Button>
         </ConfigProvider>
@@ -92,13 +105,25 @@ const AppMenu = () => {
             components: {
               Button: {
                 fontFamily: "VazirFD",
+                colorPrimary: `linear-gradient(116deg,  ${colors2.join(", ")})`,
+                colorPrimaryHover: `linear-gradient(116deg, ${getHoverColors(
+                  colors2
+                ).join(", ")})`,
+                colorPrimaryActive: `linear-gradient(116deg, ${getActiveColors(
+                  colors2
+                ).join(", ")})`,
                 lineWidth: 0,
               },
             },
           }}
         >
-          <Button type="primary" size="large">
-            رایگان شروع کنید
+          <Button
+            type="primary"
+            size="large"
+            onClick={openDonate}
+            icon={<SmileFilled />}
+          >
+            حمایت از موقاس
           </Button>
         </ConfigProvider>
       </div>

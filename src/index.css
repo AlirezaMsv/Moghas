@@ -5,28 +5,66 @@
 @layer base {
   @font-face {
     font-family: VazirFD;
-    src: url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.eot') format('eot'),
-    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.ttf') format('ttf'),
-    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff') format('woff'),
-    url('./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff2') format('woff2'),;
+    src: url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.eot") format("eot"),
+      url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.ttf") format("ttf"),
+      url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff") format("woff"),
+      url("./assets/fonts/Farsi_Vazir/Vazir-FD-WOL.woff2") format("woff2");
   }
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.ant-menu-title-content{
+.ant-menu-title-content,
+.ant-form-item-required,
+.ant-form-item,
+.ant-checkbox {
   font-family: VazirFD;
+}
+
+.ant-modal {
+  direction: rtl;
+}
+
+.font,
+.fontPlaceholder::placeholder {
+  font-family: VazirFD !important;
+}
+
+#customers {
+  background-color: #f5f8fe;
+  background-image: url(/src/assets/homepage/c2.svg);
+  background-repeat: no-repeat;
+  background-position: 0.1em;
+  padding-bottom: 2rem;
+}
+
+#mySvg {
+  transform: rotate(180deg);
+  transition: transform 0.5s ease-in-out; /* Optional: Adds a smooth transition */
+}
+
+.ant-popconfirm-description , .ant-popconfirm-title {
+  font-family: VazirFD !important;
+}
+
+.ant-select-item-option-content{
+  display: flex;
+  justify-content: center;
+}
+
+iframe, .ant-pro-chat-input-area-action-bar {
+  display: none !important;
 }
